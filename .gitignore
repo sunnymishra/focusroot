@@ -1,0 +1,8 @@
+# Node dependency binaries
+node_modules/
+
+# Other
+target/
+##.classpath
+##*.ser
+##.svn/

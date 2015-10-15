@@ -15,6 +15,7 @@ router.get('/get/:id', function(req, res, next) {
 
 
 router.post('/register', function(req, res) {
+  console.log('Inside /register router');
 	var user = req.body;
 	var registerCallback = function(error, result) {
 		if (error) {
@@ -26,6 +27,21 @@ router.post('/register', function(req, res) {
    	
 	UserModel.register(user, registerCallback);
    	console.log('exiting from /register router');
+});
+
+router.post('/forgotpassword', function(req, res) {
+  console.log('Inside /forgotpassword router');
+  var user = req.body;
+  var forgotPasswordCallback = function(error, result) {
+    if (error) {
+          res.status(100).send(error);
+      } else {
+          res.status(200).send();
+        }
+    };
+    
+  UserModel.forgotPassword(user, forgotPasswordCallback);
+  console.log('Exiting from /forgotpassword router');
 });
 
 router.put('/update', function(req, res) {
