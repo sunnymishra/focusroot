@@ -12,7 +12,8 @@ var nconf = require('nconf');
 // First consider commandline arguments and environment variables, respectively.
 nconf.argv().env();
 // Then load configuration from a designated file.
-nconf.file({ file: './config/config.json' });
+nconf.file({ file: './resources/config.json' });
+//nconf.file('db', './resources/db.json');
 // Provide default values for settings not provided above.
 nconf.defaults(); // You can put any object of default values in this
 

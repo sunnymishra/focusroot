@@ -12,12 +12,25 @@ module.exports = function(){
 		return shaSum.digest('hex');
 	};
 	
+	function verificationCode() {
+		var high = 1, low = 9;
+		var val="";
+		for(i = 0 ; i < 6 ; i++){
+			val += ""+Math.floor(random(high, low));
+		}
+	    return val;
+	}
+
+	function random (low, high) {
+	    return Math.random() * (high - low) + low;
+	}
 
 	// Add more util functions here ......
 
 
 	return {
-		encryptPassword: encryptPassword
+		encryptPassword: encryptPassword,
+		verificationCode: 	verificationCode
 		// return more exceptions here
 	}
 }

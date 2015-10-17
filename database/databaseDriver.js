@@ -1,6 +1,10 @@
 var mysql = require('mysql');
+var nconf = require('nconf');
 
-var connectionPool = mysql.createPool({
+DatabaseDriver = function() {
+};
+
+DatabaseDriver.connectionPool = mysql.createPool({
     connectionLimit : 100, //important
     host     : '127.0.0.1',
     user     : 'sunny',
@@ -9,4 +13,14 @@ var connectionPool = mysql.createPool({
     debug    :  false
 });
 
-exports.connectionPool = connectionPool;
+DatabaseDriver.test = function(){
+    console.log('test DB json: ' + nconf.get('connectionLimit'));
+    /*host     : nconf.get('host'),
+    user     : nconf.get('user'),
+  	password : nconf.get('password'),
+  	database : nconf.get('database'),
+    debug    : false*/
+};
+
+
+exports.DatabaseDriver = DatabaseDriver;

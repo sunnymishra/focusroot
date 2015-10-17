@@ -1,17 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var UserModel = require('../model/UserModel.js').UserModel;
-
-router.get('/get/:id', function(req, res, next) {
-   	UserModel.find(req.params.id, function(error, obj) {
-    	if (error) {
-    	  	res.status(100).send(error);
-    	} else {
-	        //res.type('application/json');
-        	res.json(obj);
-        }
-   	});
-});
+var UserService = require('../service/UserService.js').UserService;
 
 
 router.post('/register', function(req, res) {
@@ -19,30 +8,48 @@ router.post('/register', function(req, res) {
 	var user = req.body;
 	var registerCallback = function(error, result) {
 		if (error) {
-    	  	res.status(100).send(error);
+    	  	res.status(409).send(error);
     	} else {
         	res.json({"userId":result});
         }
    	};
    	
-	UserModel.register(user, registerCallback);
-   	console.log('exiting from /register router');
+	UserService.register(user, registerCallback);
+  console.log('exiting from /register router');
 });
+
+router.get('/isUserExist/:email', function(req, res, next) {
+  console.log('Inside /findByEmail router');
+  var user = req.body;
+  var findByEmailCallback = function(error, result) {
+    if (error) {
+          res.status(409).send(error);
+      } else {
+          res.status(200).send(result);
+        }
+    };
+
+  UserService.isUserExist(req.params.email, findByEmailCallback);
+  console.log('exiting from /findByEmail router');
+
+});
+
 
 router.post('/forgotpassword', function(req, res) {
   console.log('Inside /forgotpassword router');
   var user = req.body;
-  var forgotPasswordCallback = function(error, result) {
+  var forgotPasswordCallback = function(error, isSuccess) {
     if (error) {
-          res.status(100).send(error);
+          res.status(409).send(error);
       } else {
           res.status(200).send();
         }
     };
     
-  UserModel.forgotPassword(user, forgotPasswordCallback);
+  UserService.forgotPassword(user, forgotPasswordCallback);
   console.log('Exiting from /forgotpassword router');
 });
+
 
 router.put('/update', function(req, res) {
 	var user = req.body;
