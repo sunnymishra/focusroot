@@ -1,26 +1,20 @@
 var mysql = require('mysql');
 var nconf = require('nconf');
+var dbconfig = require('../resources/db.json');
 
 DatabaseDriver = function() {
 };
 
-DatabaseDriver.connectionPool = mysql.createPool({
-    connectionLimit : 100, //important
-    host     : '127.0.0.1',
-    user     : 'sunny',
-  	password : 'sunny',
-  	database : 'mydb',
-    debug    :  false
-});
+var datasource = {
+  connectionLimit:dbconfig.dbconnectionLimit, //important
+  host:dbconfig.dbhost,
+  user:dbconfig.dbuser,
+  password:dbconfig.dbpassword,
+  database:dbconfig.dbdatabase,
+  debug:dbconfig.dbdebug,
+}
 
-DatabaseDriver.test = function(){
-    console.log('test DB json: ' + nconf.get('connectionLimit'));
-    /*host     : nconf.get('host'),
-    user     : nconf.get('user'),
-  	password : nconf.get('password'),
-  	database : nconf.get('database'),
-    debug    : false*/
-};
+DatabaseDriver.connectionPool = mysql.createPool(datasource);
 
 
 exports.DatabaseDriver = DatabaseDriver;

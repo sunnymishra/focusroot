@@ -51,62 +51,19 @@ router.post('/forgotpassword', function(req, res) {
 });
 
 
-router.put('/update', function(req, res) {
-	var user = req.body;
-	connectionPool.getConnection(function(err,connection){
-        if (err) {
-          connection.release();
-          res.json({"code" : 100, "status" : "Error in connection database"});
-          return;
+router.post('/login', function(req, res) {
+  console.log('Inside /login router');
+  var user = req.body;
+  var loginCallback = function(error, response) {
+    if (error) {
+          res.status(409).send(error);
+      } else {
+          res.status(200).send(response);
         }
-
-        console.log('connected as id ' + connection.threadId);
-        
-        connection.query('Update user SET Name=?, Class=? Where user_ID = ?', [user.name, user.class, user.id], function(err, result){
-            connection.release();
-            if(!err) {
-            	console.log('Last insert record:', result);
-            	res.type('application/json');
-            	
-                res.json({"changedRowCount":result.changedRows});
-            } else
-	    		console.log('Error while performing Query.');          
-        });
-
-        connection.on('error', function(err) {      
-              res.json({"code" : 100, "status" : "Error in connection database"});
-              return;     
-        });
-  	});
-});
-
-router.delete('/delete/:id', function(req, res) {
-	var user = req.body;
-	connectionPool.getConnection(function(err,connection){
-        if (err) {
-          connection.release();
-          res.json({"code" : 100, "status" : "Error in connection database"});
-          return;
-        }
-
-        console.log('connected as id ' + connection.threadId);
-        
-        connection.query('Delete user where user_ID = ?', [user.id], function(err, result){
-            connection.release();
-            if(!err) {
-            	console.log('Last deleted record:', result);
-            	res.type('application/json');
-            	
-                res.json({"deletedRowCount":result.affectedRows});
-            } else
-	    		console.log('Error while performing Query.');
-        });
-
-        connection.on('error', function(err) {      
-              res.json({"code" : 100, "status" : "Error in connection database"});
-              return;     
-        });
-  	});
+    };
+    
+  UserService.authenticate(user, loginCallback);
+  console.log('Exiting from /login router');
 });
 
 

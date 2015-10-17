@@ -25,7 +25,7 @@ UserService.register = function(user, callback) {
 	       callback(error, {"userId":obj.insertId});
 	    }
 	};
-
+	// NOTE: Mail should be sent to user on successfull registration
 	UserDAO.create(user, registerCallback);
 
 	console.log('Create command is sent. Exiting UserService.register');
@@ -55,7 +55,7 @@ UserService.isUserExist = function(email, callback) {
 	console.log('isUserExist command is sent to DAO. Exiting UserService.isUserExist');
 }
 
-
+// NOTE: forgotPassword and isUserExist should be 1 router call 1 DAO call
 UserService.forgotPassword = function(user, callback) {
 	user.modifiedDate=new Date();
 	UserDAO.updatePassword(user, function(err, result){
@@ -63,7 +63,7 @@ UserService.forgotPassword = function(user, callback) {
 			console.log('Error during DB access');
 			callback(err);
 		} else {
-			
+			// NOTE: Move this part outside in service/mail.js and use mail.json file also 
 			var smtpTransport = nodemailer.createTransport("SMTP", {
 			    host: "smtp.gmail.com", // hostname
 			    secureConnection: true, // use SSL
@@ -74,7 +74,7 @@ UserService.forgotPassword = function(user, callback) {
 			    }
 			});
 			
-
+			// NOTE: Mail sending should be async.Here it is synchronous
 			smtpTransport.sendMail({
 				from: 'sunny.leotechno@gmail.com',
 				to: 'sunny.mishra0389@gmail.com',
@@ -92,6 +92,30 @@ UserService.forgotPassword = function(user, callback) {
 	});
 
 }
+
+
+UserService.authenticate = function(user, callback) {
+	DatabaseDriver.test();
+
+	user.password=Util.encryptPassword(user.password);
+	UserDAO.authenticate(user, function(err, isSuccess, result){
+		if (err) {
+			console.log('Error during DB access');
+			callback(err);
+		} else {
+			if(isSuccess){
+				// NOTE: Store user session in REDIS
+				callback(err, {"login.success":true, "userId":result.userId,"email":result.email});
+			}
+	       	else
+	       		callback(err, {"login.success":false, "description":"Incorrect Email or Password"});
+			
+		}
+	});
+}
+
+
+
 
 
 exports.UserService = UserService;

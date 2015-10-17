@@ -1,8 +1,8 @@
 {
-	"connectionLimit" : 100,
-    "host"     : "127.0.0.1",
-    "user"     : "sunny",
-  	"password" : "sunny",
-  	"database" : "mydb",
-    "debug"    :  false
+	"dbconnectionLimit":100,
+	"dbhost":"127.0.0.1",
+	"dbuser":"sunny",
+	"dbpassword":"sunny",
+	"dbdatabase":"mydb",
+	"dbdebug":false
 }
