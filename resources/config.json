@@ -1,4 +1,4 @@
 {
-	"passwordSalt":"whitezebra@123"
+	"keySalt":"whitezebra@123"
 
 }

@@ -1,14 +1,15 @@
 var crypto = require('crypto');
 var nconf = require('nconf');
+var log = require('../lib/logger');
 
 module.exports = function(){
 	
-	var encryptPassword = function(password) {
+	var encryptKey = function(key) {
 	    var shaSum = crypto.createHash('sha256');
-		//“salt” the hash by adding a secret key in front of the password before encrypting it. Saves from dictionary attack
-		password=nconf.get('passwordSalt')+password;
-		// Encrypting the salted password
-		shaSum.update(password);
+		//“salt” the hash by adding a secret key in front of the key before encrypting it. Saves from dictionary attack
+		key=nconf.get('keySalt')+key;
+		// Encrypting the salted key
+		shaSum.update(key);
 		return shaSum.digest('hex');
 	};
 	
@@ -29,7 +30,7 @@ module.exports = function(){
 
 
 	return {
-		encryptPassword: encryptPassword,
+		encryptKey: encryptKey,
 		verificationCode: 	verificationCode
 		// return more exceptions here
 	}

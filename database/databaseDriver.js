@@ -1,5 +1,4 @@
 var mysql = require('mysql');
-var nconf = require('nconf');
 var dbconfig = require('../resources/db.json');
 
 DatabaseDriver = function() {

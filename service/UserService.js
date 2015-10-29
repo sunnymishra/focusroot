@@ -5,35 +5,37 @@ var Util = Util();
 var dateFormat = require('dateformat');
 var nodemailer = require('nodemailer');
 var nconf = require('nconf');
+var log = require('../lib/logger');
 
 UserService = function() {
 };
 
 
 UserService.register = function(user, callback) {
-	user.password=Util.encryptPassword(user.password);
+	user.password=Util.encryptKey(user.password);
 	//user.created_date=dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
 	user.createdDate=new Date();
 	user.active=true;
 
-	console.log('Registering ' + user.email);
+	log.debug('Registering ' + user.email);
 
 	var registerCallback = function(error, obj) {
 		if (error) {
+			log.error('Error during DB access');
 		  	callback(error); 
 		} else {
-	       callback(error, {"userId":obj.insertId});
+	       callback(null, {"userId":obj.insertId});
 	    }
 	};
 	// NOTE: Mail should be sent to user on successfull registration
 	UserDAO.create(user, registerCallback);
 
-	console.log('Create command is sent. Exiting UserService.register');
-}
+	log.debug('Create command is sent. Exiting UserService.register');
+};
 
 UserService.isUserExist = function(email, callback) {
 	//user.created_date=dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
-	console.log('isUserExist for email: ' + email);
+	log.debug('isUserExist for email: ' + email);
 
 /*	var mailConfig = {
 		"mailhost": nconf.get('mailhost')
@@ -41,26 +43,52 @@ UserService.isUserExist = function(email, callback) {
 */
 	var findByEmailCallback = function(error, isSuccess, userId) {
 		if (error) {
+			log.error('Error during DB access');
 		  	callback(error); 
 		} else {
 			if(isSuccess)
-	       		callback(error, {"email.exist":true, "userId":userId});
+	       		callback(null, {"email.exist":true, "userId":userId});
 	       	else
-	       		callback(error, {"email.exist":false, "description":"Email doesn't exist"});
+	       		callback(null, {"email.exist":false, "description":"Email doesn't exist"});
 	    }
 	};
 
 	UserDAO.findByEmail(email, findByEmailCallback);
 
-	console.log('isUserExist command is sent to DAO. Exiting UserService.isUserExist');
-}
+	log.debug('isUserExist command is sent to DAO. Exiting UserService.isUserExist');
+};
 
 // NOTE: forgotPassword and isUserExist should be 1 router call 1 DAO call
+
+
+
+UserService.authenticate = function(user, callback) { 
+	user.password=Util.encryptKey(user.password);
+	UserDAO.authenticate(user, function(err, isSuccess, result){
+		if (err) {
+			log.error('Error during DB access');
+			callback(err);
+		} else {
+			if(isSuccess){
+				// NOTE: Store user session in REDIS
+				callback(null, {"login.success":true, "userId":result.userId,"email":result.email});
+			}
+	       	else
+	       		callback(null, {"login.success":false, "description":"Incorrect Email or Password"});
+			
+		}
+	});
+};
+
 UserService.forgotPassword = function(user, callback) {
 	user.modifiedDate=new Date();
-	UserDAO.updatePassword(user, function(err, result){
+	var verificationCode = Util.verificationCode();
+	user.forgotPasswordCode = Util.encryptKey(verificationCode);
+	user.password=Util.encryptKey(user.password);
+
+	UserDAO.updatePassword({user:user, isForgotPassword:true}, function(err, result){
 		if (err) {
-			console.log('Error during DB access');
+			log.error('Error during DB access');
 			callback(err);
 		} else {
 			// NOTE: Move this part outside in service/mail.js and use mail.json file also 
@@ -79,42 +107,43 @@ UserService.forgotPassword = function(user, callback) {
 				from: 'sunny.leotechno@gmail.com',
 				to: 'sunny.mishra0389@gmail.com',
 				subject: 'Forgot password verification code',
-				text: 'Please enter following verification code to activate your new app password:\n' + Util.verificationCode()
+				text: 'Please enter following verification code to activate your new app password:\n' + verificationCode
 			}, function forgotPasswordResult(err) {
 				if (err) {
 					callback(err, false);
 				} else {
-					callback(err, true);
+					callback(null, true);
 				}
 			});
 			;
 		}
 	});
 
-}
+};
 
-
-UserService.authenticate = function(user, callback) {
-	DatabaseDriver.test();
-
-	user.password=Util.encryptPassword(user.password);
-	UserDAO.authenticate(user, function(err, isSuccess, result){
+UserService.verifyForgotPasswordCode = function(user, callback) { 
+	user.forgotPasswordCode=Util.encryptKey(user.forgotPasswordCode);
+	UserDAO.verifyForgotPasswordCode(user, function(err, isSuccess){
 		if (err) {
-			console.log('Error during DB access');
+			log.error('Error during DB access');
 			callback(err);
 		} else {
 			if(isSuccess){
-				// NOTE: Store user session in REDIS
-				callback(err, {"login.success":true, "userId":result.userId,"email":result.email});
+				UserDAO.resetForgotPasswordCode(user.userId, function(err, result){
+					if (err) {
+						log.error('Error during DB access');
+						callback(err);
+					} else {
+						callback(null, {"verifyForgotPasswordCode.success":true});
+					}
+				});
 			}
 	       	else
-	       		callback(err, {"login.success":false, "description":"Incorrect Email or Password"});
+	       		callback(null, {"verifyForgotPasswordCode.success":false, "description":"Incorrect Verification code"});
 			
 		}
 	});
-}
-
-
+};
 
 
 
