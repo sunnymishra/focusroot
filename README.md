@@ -1,5 +1,7 @@
 # focusroot
 
+!here
+
 # Basic Node commands
 #Check version
 node -v
@@ -26,5 +28,3 @@ npm update --save
    b. npm start
 2) node app.js
 3) nodemon
-
-
