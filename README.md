@@ -1,6 +1,6 @@
 # focusroot
 
-[[REST Endpoints]]
+/focusroot-server/wikis/new-page
 
 # Basic Node commands
 #Check version
