@@ -1,5 +1,6 @@
 var connectionPool = require('../database/databaseDriver.js').DatabaseDriver.connectionPool;
-var log = require('../lib/logger');
+var path = require('path');
+var log = require(path.join(path.dirname(require.main.filename),'../lib/logger.js'));
 
 UserDAO = function() {
 };

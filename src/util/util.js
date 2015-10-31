@@ -1,6 +1,7 @@
 var crypto = require('crypto');
 var nconf = require('nconf');
-var log = require('../lib/logger');
+var path = require('path');
+var log = require(path.join(path.dirname(require.main.filename),'../lib/logger.js'));
 
 module.exports = function(){
 	

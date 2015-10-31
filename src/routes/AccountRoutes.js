@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var log = require('../lib/logger');
-var UserService = require('../service/UserService.js').UserService;
+var path = require('path');
+var log = require(path.join(path.dirname(require.main.filename),'../lib/logger.js'));
+var AccountService = require('../service/AccountService.js').AccountService;
 
 router.post('/register', function(req, res) {
   log.debug('Inside /register router');
@@ -14,7 +15,7 @@ router.post('/register', function(req, res) {
         }
    	};
    	
-	UserService.register(user, registerCallback);
+	AccountService.register(user, registerCallback);
   log.debug('exiting from /register router');
 });
 
@@ -29,11 +30,11 @@ router.post('/login', function(req, res) {
         }
     };
     
-  UserService.authenticate(user, loginCallback);
+  AccountService.authenticate(user, loginCallback);
   log.debug('Exiting from /login router');
 });
 
-router.get('/isUserExist/:email', function(req, res, next) {
+router.get('/isAccountExist/:email', function(req, res, next) {
   log.debug('Inside /findByEmail router');
   var user = req.body;
   var findByEmailCallback = function(error, result) {
@@ -44,7 +45,7 @@ router.get('/isUserExist/:email', function(req, res, next) {
         }
     };
 
-  UserService.isUserExist(req.params.email, findByEmailCallback);
+  AccountService.isAccountExist(req.params.email, findByEmailCallback);
   log.debug('exiting from /findByEmail router');
 
 });
@@ -61,7 +62,7 @@ router.post('/forgotpassword', function(req, res) {
       }
   };
     
-  UserService.forgotPassword(user, forgotPasswordCallback);
+  AccountService.forgotPassword(user, forgotPasswordCallback);
   log.debug('Exiting from /forgotpassword router');
 });
 
@@ -75,7 +76,7 @@ router.post('/verifypasswordcode', function(req, res) {
           res.status(200).send(response);
       }
   };
-  UserService.verifyForgotPasswordCode(user, verifyForgotPasswordCodeCallback);
+  AccountService.verifyForgotPasswordCode(user, verifyForgotPasswordCodeCallback);
   log.debug('Exiting from /verifypasswordcode router'); 
 });
 

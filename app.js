@@ -1,13 +1,12 @@
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
-//var logger = require('morgan');
+
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var routes = require('./routes/index');
-var userRoutes = require('./routes/UserRoutes');
-//var log = require('./lib/logger')(module);
+var accountRoutes = require('./src/routes/AccountRoutes');
+
 var log = require('./lib/logger');
 
 var nconf = require('nconf');
@@ -40,8 +39,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/user', userRoutes);
+app.use('/focusroot/webservice/account', accountRoutes);
 
 app.get('/errortest', function(req, res, next){
     next(new Error('Test error!'));

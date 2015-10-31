@@ -5,13 +5,14 @@ var Util = Util();
 var dateFormat = require('dateformat');
 var nodemailer = require('nodemailer');
 var nconf = require('nconf');
-var log = require('../lib/logger');
+var path = require('path');
+var log = require(path.join(path.dirname(require.main.filename),'../lib/logger.js'));
 
-UserService = function() {
+AccountService = function() {
 };
 
 
-UserService.register = function(user, callback) {
+AccountService.register = function(user, callback) {
 	user.password=Util.encryptKey(user.password);
 	//user.created_date=dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
 	user.createdDate=new Date();
@@ -30,12 +31,12 @@ UserService.register = function(user, callback) {
 	// NOTE: Mail should be sent to user on successfull registration
 	UserDAO.create(user, registerCallback);
 
-	log.debug('Create command is sent. Exiting UserService.register');
+	log.debug('Create command is sent. Exiting AccountService.register');
 };
 
-UserService.isUserExist = function(email, callback) {
+AccountService.isAccountExist = function(email, callback) {
 	//user.created_date=dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
-	log.debug('isUserExist for email: ' + email);
+	log.debug('isAccountExist for email: ' + email);
 
 /*	var mailConfig = {
 		"mailhost": nconf.get('mailhost')
@@ -55,14 +56,14 @@ UserService.isUserExist = function(email, callback) {
 
 	UserDAO.findByEmail(email, findByEmailCallback);
 
-	log.debug('isUserExist command is sent to DAO. Exiting UserService.isUserExist');
+	log.debug('isAccountExist command is sent to DAO. Exiting AccountService.isAccountExist');
 };
 
-// NOTE: forgotPassword and isUserExist should be 1 router call 1 DAO call
+// NOTE: forgotPassword and isAccountExist should be 1 router call 1 DAO call
 
 
 
-UserService.authenticate = function(user, callback) { 
+AccountService.authenticate = function(user, callback) { 
 	user.password=Util.encryptKey(user.password);
 	UserDAO.authenticate(user, function(err, isSuccess, result){
 		if (err) {
@@ -80,7 +81,7 @@ UserService.authenticate = function(user, callback) {
 	});
 };
 
-UserService.forgotPassword = function(user, callback) {
+AccountService.forgotPassword = function(user, callback) {
 	user.modifiedDate=new Date();
 	var verificationCode = Util.verificationCode();
 	user.forgotPasswordCode = Util.encryptKey(verificationCode);
@@ -121,7 +122,7 @@ UserService.forgotPassword = function(user, callback) {
 
 };
 
-UserService.verifyForgotPasswordCode = function(user, callback) { 
+AccountService.verifyForgotPasswordCode = function(user, callback) { 
 	user.forgotPasswordCode=Util.encryptKey(user.forgotPasswordCode);
 	UserDAO.verifyForgotPasswordCode(user, function(err, isSuccess){
 		if (err) {
@@ -147,4 +148,4 @@ UserService.verifyForgotPasswordCode = function(user, callback) {
 
 
 
-exports.UserService = UserService;
+exports.AccountService = AccountService;
