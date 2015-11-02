@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var accountRoutes = require('./src/routes/AccountRoutes');
+var goalRoutes = require('./src/routes/GoalRoutes');
 
 var log = require('./lib/logger');
 
@@ -40,6 +41,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/focusroot/webservice/account', accountRoutes);
+app.use('/focusroot/webservice/goal', goalRoutes);
 
 app.get('/errortest', function(req, res, next){
     next(new Error('Test error!'));

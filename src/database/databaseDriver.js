@@ -12,6 +12,7 @@ var datasource = {
   password:dbconfig.dbpassword,
   database:dbconfig.dbdatabase,
   debug:dbconfig.dbdebug,
+  supportBigNumbers:true
 }
 
 DatabaseDriver.connectionPool = mysql.createPool(datasource);

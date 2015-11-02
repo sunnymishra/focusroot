@@ -2,10 +2,10 @@ var connectionPool = require('../database/databaseDriver.js').DatabaseDriver.con
 var path = require('path');
 var log = require(path.join(path.dirname(require.main.filename),'../lib/logger.js'));
 
-UserDAO = function() {
+UserRepository = function() {
 };
 
-UserDAO.find = function(id, callback) {
+UserRepository.find = function(id, callback) {
 	connectionPool.getConnection(function(err,connection){
 	    if (err) {
 	    	log.debug('database connectivity error'+ err);
@@ -27,13 +27,14 @@ UserDAO.find = function(id, callback) {
 	    });
 
 	    connection.on('error', function(err) {
-	          log.error('Error in connection database. '+ err); 
+	          log.error('Error in connection database. '+ err);
+	          if(connection) connection.release();
 	          callback(err);
 	    });
 	});
 };
 
-UserDAO.create = function(user, callback) {
+UserRepository.create = function(user, callback) {
 	connectionPool.getConnection(function(err,connection){
         if (err) {
         	log.error('database connectivity error'+ err);
@@ -56,14 +57,15 @@ UserDAO.create = function(user, callback) {
         });
 
         connection.on('error', function(err) {      
-              log.error('Error in connection database. '+ err); 
+              log.error('Error in connection database. '+ err);
+              if(connection) connection.release();
 	          callback(err);
         });
   	});
 };
 
 
-UserDAO.findByEmail = function(email, callback) {
+UserRepository.findByEmail = function(email, callback) {
 	connectionPool.getConnection(function(err,connection){
 	    if (err) {
 	    	log.error('database connectivity error'+ err);
@@ -90,13 +92,14 @@ UserDAO.findByEmail = function(email, callback) {
 	    });
 
 	    connection.on('error', function(err) {
-	          log.error('Error in connection database. '+ err); 
+	          log.error('Error in connection database. '+ err);
+	          if(connection) connection.release();
 	          callback(err);
 	    });
 	});
 };
 
-UserDAO.authenticate = function(user, callback) {
+UserRepository.authenticate = function(user, callback) {
 	connectionPool.getConnection(function(err,connection){
 	    if (err) {
 	    	log.error('database connectivity error'+ err);
@@ -123,13 +126,14 @@ UserDAO.authenticate = function(user, callback) {
 	    });
 
 	    connection.on('error', function(err) {
-	          log.error('Error in connection database. '+ err); 
+	          log.error('Error in connection database. '+ err);
+	          if(connection) connection.release();
 	          callback(err);
 	    });
 	});
 };
 
-UserDAO.updatePassword = function(obj, callback) {
+UserRepository.updatePassword = function(obj, callback) {
 	connectionPool.getConnection(function(err,connection){
         if (err) {
         	log.error('database connectivity error'+ err);
@@ -159,20 +163,21 @@ UserDAO.updatePassword = function(obj, callback) {
             	log.debug('result.updatedRecords:', result.affectedRows);
 	            callback(null, result);
 	        } else{
-	        	log.error('Error while performing Query. '+ err);  
+	        	log.error('Error while performing Query. '+ err);
 	        	callback(err);
 	    	}
 	    	    
         });
 
         connection.on('error', function(err) {      
-              log.error('Error in connection database. '+ err); 
+              log.error('Error in connection database. '+ err);
+              if(connection) connection.release();
 	          callback(err);
         });
   	});
 };
 
-UserDAO.verifyForgotPasswordCode = function(user, callback) {
+UserRepository.verifyForgotPasswordCode = function(user, callback) {
 	connectionPool.getConnection(function(err,connection){
 	    if (err) {
 	    	log.error('database connectivity error'+ err);
@@ -199,14 +204,15 @@ UserDAO.verifyForgotPasswordCode = function(user, callback) {
 	    });
 
 	    connection.on('error', function(err) {
-	          log.error('Error in connection database. '+ err); 
+	          log.error('Error in connection database. '+ err);
+	          if(connection) connection.release();
 	          callback(err);
 	    });
 	});
 };
 
 
-UserDAO.resetForgotPasswordCode = function(userId, callback) {
+UserRepository.resetForgotPasswordCode = function(userId, callback) {
 	connectionPool.getConnection(function(err,connection){
 	    if (err) {
 	    	log.error('database connectivity error'+ err);
@@ -229,7 +235,8 @@ UserDAO.resetForgotPasswordCode = function(userId, callback) {
         });
 
 	    connection.on('error', function(err) {
-	          log.error('Error in connection database. '+ err); 
+	          log.error('Error in connection database. '+ err);
+	          if(connection) connection.release();
 	          callback(err);
 	    });
 	});
@@ -237,4 +244,4 @@ UserDAO.resetForgotPasswordCode = function(userId, callback) {
 
 
 
-exports.UserDAO = UserDAO;
+exports.UserRepository = UserRepository;

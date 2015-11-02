@@ -1,4 +1,4 @@
-var UserDAO = require('../database/UserDAO.js').UserDAO;
+var UserRepository = require('../database/UserRepository.js').UserRepository;
 var DatabaseError = require('../exception/CustomException.js').CustomException.databaseError;
 var Util = require('../util/util.js');
 var Util = Util();
@@ -29,7 +29,7 @@ AccountService.register = function(user, callback) {
 	    }
 	};
 	// NOTE: Mail should be sent to user on successfull registration
-	UserDAO.create(user, registerCallback);
+	UserRepository.create(user, registerCallback);
 
 	log.debug('Create command is sent. Exiting AccountService.register');
 };
@@ -54,7 +54,7 @@ AccountService.isAccountExist = function(email, callback) {
 	    }
 	};
 
-	UserDAO.findByEmail(email, findByEmailCallback);
+	UserRepository.findByEmail(email, findByEmailCallback);
 
 	log.debug('isAccountExist command is sent to DAO. Exiting AccountService.isAccountExist');
 };
@@ -65,17 +65,17 @@ AccountService.isAccountExist = function(email, callback) {
 
 AccountService.authenticate = function(user, callback) { 
 	user.password=Util.encryptKey(user.password);
-	UserDAO.authenticate(user, function(err, isSuccess, result){
+	UserRepository.authenticate(user, function(err, isSuccess, result){
 		if (err) {
 			log.error('Error during DB access');
 			callback(err);
 		} else {
 			if(isSuccess){
 				// NOTE: Store user session in REDIS
-				callback(null, {"login.success":true, "userId":result.userId,"email":result.email});
+				callback(null, {"success":true, "userId":result.userId,"email":result.email});
 			}
 	       	else
-	       		callback(null, {"login.success":false, "description":"Incorrect Email or Password"});
+	       		callback(null, {"success":false, "description":"Incorrect Email or Password"});
 			
 		}
 	});
@@ -87,7 +87,7 @@ AccountService.forgotPassword = function(user, callback) {
 	user.forgotPasswordCode = Util.encryptKey(verificationCode);
 	user.password=Util.encryptKey(user.password);
 
-	UserDAO.updatePassword({user:user, isForgotPassword:true}, function(err, result){
+	UserRepository.updatePassword({user:user, isForgotPassword:true}, function(err, result){
 		if (err) {
 			log.error('Error during DB access');
 			callback(err);
@@ -124,23 +124,23 @@ AccountService.forgotPassword = function(user, callback) {
 
 AccountService.verifyForgotPasswordCode = function(user, callback) { 
 	user.forgotPasswordCode=Util.encryptKey(user.forgotPasswordCode);
-	UserDAO.verifyForgotPasswordCode(user, function(err, isSuccess){
+	UserRepository.verifyForgotPasswordCode(user, function(err, isSuccess){
 		if (err) {
 			log.error('Error during DB access');
 			callback(err);
 		} else {
 			if(isSuccess){
-				UserDAO.resetForgotPasswordCode(user.userId, function(err, result){
+				UserRepository.resetForgotPasswordCode(user.userId, function(err, result){
 					if (err) {
 						log.error('Error during DB access');
 						callback(err);
 					} else {
-						callback(null, {"verifyForgotPasswordCode.success":true});
+						callback(null, {"success":true});
 					}
 				});
 			}
 	       	else
-	       		callback(null, {"verifyForgotPasswordCode.success":false, "description":"Incorrect Verification code"});
+	       		callback(null, {"success":false, "description":"Incorrect Verification code"});
 			
 		}
 	});
