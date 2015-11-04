@@ -5,9 +5,9 @@ var log = require(path.join(path.dirname(require.main.filename),'../lib/logger.j
 var GoalService = require('../service/GoalService.js').GoalService;
 
 router.get('/mygoallist/:userId', function(req, res) {
-  log.debug('Inside /mygoallist router. userId:'+ userId);
 	var userId = req.params.userId;
-
+    log.debug('Inside /mygoallist router. userId:'+ userId);
+  
 	var routerCallback = function(error, result) {
 		if (error) {
     	  	res.status(409).send(error);
@@ -20,6 +20,35 @@ router.get('/mygoallist/:userId', function(req, res) {
   log.debug('exiting from /mygoallist router');
 });
 
+router.get('/taglist', function(req, res) {
+  log.debug('Inside /taglist router');
+
+  var routerCallback = function(error, result) {
+    if (error) {
+          res.status(409).send(error);
+      } else {
+          res.json(result);
+        }
+    };
+    
+  GoalService.fetchTaglist(routerCallback);
+  log.debug('exiting from /taglist router');
+});
+
+router.post('/mygoal', function(req, res) {
+  log.debug('Inside /mygoal POST router');
+  var goalDetails=req.body;
+  var routerCallback = function(error, result) {
+    if (error) {
+          res.status(409).send(error);
+      } else {
+          res.json(result);
+        }
+    };
+    
+  GoalService.createGoal(goalDetails, routerCallback);
+  log.debug('exiting from /mygoal POST router');
+});
 
 module.exports = router;
 

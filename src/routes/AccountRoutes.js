@@ -22,11 +22,11 @@ router.post('/register', function(req, res) {
 router.post('/login', function(req, res) {
   log.debug('Inside /login router');
   var user = req.body;
-  var loginCallback = function(error, response) {
+  var loginCallback = function(error, result) {
     if (error) {
           res.status(409).send(error);
       } else {
-          res.status(200).send(response);
+          res.json(result);
         }
     };
     
@@ -41,7 +41,7 @@ router.get('/isAccountExist/:email', function(req, res, next) {
     if (error) {
           res.status(409).send(error);
       } else {
-          res.status(200).send(result);
+          res.json(result);
         }
     };
 
@@ -69,11 +69,11 @@ router.post('/forgotpassword', function(req, res) {
 router.post('/verifypasswordcode', function(req, res) {
   log.debug('Inside /verifypasswordcode router');
   var user = req.body;
-  var verifyForgotPasswordCodeCallback = function(error, response) {
+  var verifyForgotPasswordCodeCallback = function(error, result) {
     if (error) {
           res.status(409).send(error);
       } else {
-          res.status(200).send(response);
+          res.json(result);
       }
   };
   AccountService.verifyForgotPasswordCode(user, verifyForgotPasswordCodeCallback);
