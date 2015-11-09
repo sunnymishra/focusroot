@@ -58,14 +58,14 @@ GoalService.createGoal = function(goalDetails, callback) {
 	var GoalModel={"tagId":goalDetails.tagId, "goalTypeId":goalDetails.goalTypeId,
 		"goalName":goalDetails.goalName, "goalDescription":goalDetails.goalDescription,
 		"goalTargetValue":goalDetails.goalTargetValue,
-		"goalUnit":goalDetails.goalUnit, "goalStartDate":goalDetails.goalStartDate,
-		"goalEndDate":goalDetails.goalEndDate, "createdDate":new Date(),
+		"goalUnit":goalDetails.goalUnit, "createdDate":new Date(),
 		"createdBy":goalDetails.userId, "active":true};
 
 		//log.debug('typeof goal.goalStartDate %s and goal.goalStartDate %j:',typeof goal.goalStartDate, goal.goalStartDate);
 	
-	var UserGoalModel={"userId":goalDetails.userId, "createdDate":new Date(),
-	"createdBy":goalDetails.createdBy, "active":true};
+	var UserGoalModel={"userId":goalDetails.userId, "goalStartDate":goalDetails.goalStartDate,
+		"goalEndDate":goalDetails.goalEndDate, "createdDate":new Date(),
+		"createdBy":goalDetails.createdBy, "active":true};
 
 	var serviceCallback = function(error, goalResult) {
 		if (error) {
@@ -77,18 +77,16 @@ GoalService.createGoal = function(goalDetails, callback) {
 			UserGoalModel.goalId=goalId;
 			// Now going to create new row in F_USER_GOAL table
 
-			GoalRepository.createUserGoalMap(UserGoalModel, function(err, result){
+			GoalRepository.createUserGoalMap(UserGoalModel, function(err, userGoalResult){
 				if (err) {
 					// NOTE: Need to rollback commit of F_GOAL if control reaches here, i.e. F_USER_GOAL insert failed
 					log.error('Error during DB access');
 					callback(err);
 				} else {
-					callback(null, {"success":true, "goalId":goalId});
+					var userGoalId=userGoalResult.insertId;
+					callback(null, {"success":true, "goalId":goalId, "userGoalId":userGoalId});
 				}
 			});
-		    
-			//callback(null, {"success":true, "goalId":goal.goalId});
-
 		}
 	};
 	
@@ -97,6 +95,57 @@ GoalService.createGoal = function(goalDetails, callback) {
 	log.debug('Exiting GoalService.createGoal');
 };
 
+
+GoalService.createGoalLog = function(goalLogDetails, callback) {
+	log.debug('In Service layer , creating new GoalLog');
+
+	var serviceCallback = function(error) {
+		if (error) {
+			log.error('Error during DB access for Inserting into F_GOAL_TRACKER');
+		  	callback(error); 
+		} else {
+			// This means row successfully inserted in F_GOAL_TRACKER
+			GoalRepository.find(goalLogDetails.goalId, function(err, goalResult){
+				if (err) {
+					// NOTE: Need to rollback commit of F_GOAL if control reaches here, i.e. F_USER_GOAL insert failed
+					log.error('Error during DB access while updating GoalProgressPercent');
+					callback(err);
+				} else {
+					var goalProgressPercent = calculateGoalProgress(goalResult,goalLogDetails);
+					// NOTE: Below DB update can be sent to JRabbit Messaage Queue, while we already returned GoalProgressPercent to Client
+					GoalRepository.updateGoalProgressPercent({"userGoalId":goalLogDetails.userGoalId,"goalProgressPercent":goalProgressPercent}, function(err, result){
+						if (err) {
+							// NOTE: Need to rollback commit of F_GOAL if control reaches here, i.e. F_USER_GOAL insert failed
+							log.error('Error during DB access while updating GoalProgressPercent');
+							callback(err);
+						} else {
+							// NOTE: We won't wait for DB to commit goalProgress. We will return to Client even before that.
+							// Therefore nothing to return here to Client
+							log.debug('successfully updated goalProgressPercent for userGoalId:'+goalLogDetails.userGoalId)
+						}
+					});
+					callback(null, {"success":true, "goalProgressPercent":goalProgressPercent});
+				}
+			});
+		}
+	};
+	
+	var goalLogModel={"userGoalId":goalLogDetails.userGoalId, "logValue":goalLogDetails.logValue,
+		"logUnit":goalLogDetails.logUnit, "logNotes":goalLogDetails.logNotes,
+		"logDate":goalLogDetails.logDate};
+	GoalRepository.createGoalLog(goalLogModel, serviceCallback);
+
+	log.debug('Exiting GoalService.createGoal');
+};
+
+function calculateGoalProgress(goal, goalLog){
+	var targetValue = goal.goalTargetValue;
+	var achievedValue = goalLog.logValue;
+	var goalProgressPercent = Math.round(achievedValue/targetValue*100);
+	goalProgressPercent=goalProgressPercent>100?100:goalProgressPercent;
+	goalProgressPercent=goalProgressPercent<0?0:goalProgressPercent;
+	return goalProgressPercent;
+};
 
 
 exports.GoalService = GoalService;

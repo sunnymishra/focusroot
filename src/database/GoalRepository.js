@@ -11,7 +11,7 @@ GoalRepository.fetchMyGoalList = function(userId, callback) {
 	    	log.debug('database connectivity error'+ err);
 	      	if(connection) connection.release();
 	      	callback(err);
-	    }   
+	    }
 
 	    log.debug('connected as id ' + connection.threadId);
 	    
@@ -120,6 +120,94 @@ GoalRepository.createUserGoalMap = function(goalDetails, callback) {
 	        	callback(err);
 	    	}
         });
+
+	    connection.on('error', function(err) {
+	          log.error('Error in connection database. '+ err); 
+	          if(connection) connection.release();
+	          callback(err);
+	    });
+	});
+};
+
+GoalRepository.createGoalLog = function(goalLogDetails, callback) {
+	connectionPool.getConnection(function(err,connection){
+	    if (err) {
+	    	log.debug('database connectivity error'+ err);
+	      	if(connection) connection.release();
+	      	callback(err);
+	    }   
+
+	    log.debug('connected as id ' + connection.threadId);
+	    
+	    connection.query('Insert into F_GOAL_TRACKER SET ?', goalLogDetails, function(err, result){
+            connection.release();
+            if(!err) {
+            	log.debug('Last insert record:', result);
+	            callback(null);
+	        } else{
+	        	log.error('Error while performing Query. '+ err);  
+	        	callback(err);
+	    	}
+        });
+
+	    connection.on('error', function(err) {
+	          log.error('Error in connection database. '+ err); 
+	          if(connection) connection.release();
+	          callback(err);
+	    });
+	});
+};
+
+GoalRepository.find = function(goalId, callback) {
+	connectionPool.getConnection(function(err,connection){
+	    if (err) {
+	    	log.debug('database connectivity error'+ err);
+	      	if(connection) connection.release();
+	      	callback(err);
+	    }   
+
+	    log.debug('connected as id ' + connection.threadId);
+	    
+	    connection.query('Select * from F_GOAL where goalId=? and active=?', [goalId, 1], function(err, rows){
+            connection.release();
+            if(!err) {
+	        	log.debug('Fetched result:', rows[0]);
+	            callback(null, rows[0]);
+	        } else{
+	        	log.error('Error while performing Query. '+ err);  
+	        	callback(err);
+	    	}
+        });
+
+	    connection.on('error', function(err) {
+	          log.error('Error in connection database. '+ err); 
+	          if(connection) connection.release();
+	          callback(err);
+	    });
+	});
+};
+
+GoalRepository.updateGoalProgressPercent = function(userId, callback) {
+	connectionPool.getConnection(function(err,connection){
+	    if (err) {
+	    	log.debug('database connectivity error'+ err);
+	      	if(connection) connection.release();
+	      	callback(err);
+	    }
+
+	    log.debug('connected as id ' + connection.threadId);
+	    
+	    var sql = 'Update F_USER_GOAL SET password = ?, modifiedDate = ? where userId = ?';
+	    connection.query(sql, [userId, userId, 1, 1], function(err, rows, fields){
+	        connection.release();
+	        if(!err) {
+	        	log.debug('Fetched result:', rows);
+	            callback(null, rows);
+	        } else{
+	        	log.error('Error while performing Query. '+ err);  
+	        	callback(err);
+	    	}
+	    });
 
 	    connection.on('error', function(err) {
 	          log.error('Error in connection database. '+ err); 

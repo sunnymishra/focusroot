@@ -50,6 +50,23 @@ router.post('/mygoal', function(req, res) {
   log.debug('exiting from /mygoal POST router');
 });
 
+
+router.post('/goallog', function(req, res) {
+  log.debug('Inside /goallog POST router');
+  var goalLogDetails=req.body;
+  var routerCallback = function(error, result) {
+    if (error) {
+          res.status(409).send(error);
+      } else {
+          res.json(result);
+        }
+    };
+    
+  GoalService.createGoalLog(goalLogDetails, routerCallback);
+  log.debug('exiting from /goallog POST router');
+});
+
+
 module.exports = router;
 
 
