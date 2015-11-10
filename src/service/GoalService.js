@@ -19,9 +19,9 @@ GoalService.fetchMyGoalList = function(userId, callback) {
 			if(result){
 				result.forEach( function (goal)
 				{
-				    goal.createdDate=dateFormat(goal.createdDate, nconf.get('myDateFormat'));
-				    goal.goalStartDate=dateFormat(goal.goalStartDate, nconf.get('myDateFormat'));
-				    goal.goalEndDate=dateFormat(goal.goalEndDate, nconf.get('myDateFormat'));
+				    goal.createdDate=goal.createdDate?dateFormat(goal.createdDate, nconf.get('myDateFormat')):null;
+				    goal.goalStartDate=goal.goalStartDate?dateFormat(goal.goalStartDate, nconf.get('myDateFormat')):null;
+				    goal.goalEndDate=goal.goalEndDate?dateFormat(goal.goalEndDate, nconf.get('myDateFormat')):null;
 				});
 			}
 	       callback(null, {"success":true, "myGoalList":result});
@@ -111,9 +111,14 @@ GoalService.createGoalLog = function(goalLogDetails, callback) {
 					log.error('Error during DB access while updating GoalProgressPercent');
 					callback(err);
 				} else {
+					if(typeof goalResult === 'undefined'){
+						//NOTE: We may have to maintain a list of ErrorCodes and return it to CLient, such as this scenario
+						log.debug('Returning to Client as no matching GoalId found in DB for goalId:'+goalLogDetails.goalId);
+						callback(null, {"success":false, "description":"No matching GoalId found in DB for goalId:"+goalLogDetails.goalId});
+					}
 					var goalProgressPercent = calculateGoalProgress(goalResult,goalLogDetails);
 					// NOTE: Below DB update can be sent to JRabbit Messaage Queue, while we already returned GoalProgressPercent to Client
-					GoalRepository.updateGoalProgressPercent({"userGoalId":goalLogDetails.userGoalId,"goalProgressPercent":goalProgressPercent}, function(err, result){
+					GoalRepository.updateGoalProgressPercent({"userGoalId":goalLogDetails.userGoalId, "modifiedDate":new Date(), "goalProgressPercent":goalProgressPercent}, function(err, result){
 						if (err) {
 							// NOTE: Need to rollback commit of F_GOAL if control reaches here, i.e. F_USER_GOAL insert failed
 							log.error('Error during DB access while updating GoalProgressPercent');
@@ -133,6 +138,7 @@ GoalService.createGoalLog = function(goalLogDetails, callback) {
 	var goalLogModel={"userGoalId":goalLogDetails.userGoalId, "logValue":goalLogDetails.logValue,
 		"logUnit":goalLogDetails.logUnit, "logNotes":goalLogDetails.logNotes,
 		"logDate":goalLogDetails.logDate};
+
 	GoalRepository.createGoalLog(goalLogModel, serviceCallback);
 
 	log.debug('Exiting GoalService.createGoal');
@@ -147,5 +153,28 @@ function calculateGoalProgress(goal, goalLog){
 	return goalProgressPercent;
 };
 
+
+GoalService.fetchGoal = function(userGoalId, callback) {
+	log.debug('Inside fetchGoal service');
+
+	var serviceCallback = function(error, success, goal) {
+		if (error) {
+			log.error('Error during DB access');
+		  	callback(error, {"success":false, "description": "Could not fetch list due to unexpected error. Please try again."}); 
+		} else {
+			if(success && goal && typeof goal!=='undefined'){
+				goal.goalStartDate=goal.goalStartDate?dateFormat(goal.goalStartDate, nconf.get('myDateFormat')):null;
+				goal.goalEndDate=goal.goalEndDate?dateFormat(goal.goalEndDate, nconf.get('myDateFormat')):null;
+				
+				callback(null, {"success":true, "goal":goal});
+			}else if(!success)
+	       		callback(null, {"success":false, "description":"userGoalId didn\'t exist:"+userGoalId});
+	    }
+	};
+
+	GoalRepository.fetchGoal(userGoalId, serviceCallback);
+
+	log.debug('Exiting GoalService.fetchGoal');
+};
 
 exports.GoalService = GoalService;

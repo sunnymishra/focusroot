@@ -66,6 +66,22 @@ router.post('/goallog', function(req, res) {
   log.debug('exiting from /goallog POST router');
 });
 
+router.get('/mygoal/:userGoalId', function(req, res) {
+  log.debug('Inside /mygoal GET router');
+  var userGoalId=req.params.userGoalId;
+  log.debug('userGoalId : --->'+userGoalId);
+  //var goalId=req.params.goalId;
+  var routerCallback = function(error, result) {
+    if (error) {
+          res.status(409).send(error);
+      } else {
+          res.json(result);
+        }
+    };
+    
+  GoalService.fetchGoal(userGoalId, routerCallback);
+  log.debug('exiting from /mygoal GET router');
+});
 
 module.exports = router;
 
