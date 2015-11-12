@@ -83,6 +83,22 @@ router.get('/mygoal/:userGoalId', function(req, res) {
   log.debug('exiting from /mygoal GET router');
 });
 
+router.get('/mygoaltracker/:userGoalId', function(req, res) {
+  log.debug('Inside /mygoaltracker GET router');
+  var userGoalId=req.params.userGoalId;
+
+  var routerCallback = function(error, result) {
+    if (error) {
+          res.status(409).send(error);
+      } else {
+          res.json(result);
+        }
+    };
+    
+  GoalService.fetchGoalTracker(userGoalId, routerCallback);
+  log.debug('exiting from /mygoaltracker GET router');
+});
+
 module.exports = router;
 
 

@@ -241,7 +241,7 @@ GoalRepository.fetchGoal = function(userGoalId, callback) {
 		            callback(null, true, rows[0]);
 		        }else{
 					callback(null, false);
-					log.warn('UserGoalId %s didn\'t exist !', userGoalId);
+					log.warn('userGoalId %s doesn\'t exist !', userGoalId);
 				}
 	        } else{
 	        	log.error('Error while performing Query. '+ err);  
@@ -256,6 +256,45 @@ GoalRepository.fetchGoal = function(userGoalId, callback) {
 	    });
 	});
 };
+
+
+GoalRepository.fetchGoalTracker = function(userGoalId, callback) {
+	connectionPool.getConnection(function(err,connection){
+	    if (err) {
+	    	log.debug('database connectivity error'+ err);
+	      	if(connection) connection.release();
+	      	callback(err);
+	    }   
+
+	    log.debug('connected as id ' + connection.threadId);
+	    
+	    var sql = 
+	    	"SELECT logValue, logUnit, logNotes, logDate "+
+			"from F_GOAL_TRACKER where userGoalId=? ";
+	    connection.query(sql, [userGoalId], function(err, rows){
+	        connection.release();
+	        if(!err) {
+	        	if(typeof rows !== 'undefined' && rows.length > 0){
+		        	log.debug('Fetched result:', rows);
+		            callback(null, true, rows);
+		        }else{
+					callback(null, false);
+					log.warn('userGoalId %s doesn\'t exist in F_GOAL_TRACKER table !', userGoalId);
+				}
+	        } else{
+	        	log.error('Error while performing Query. '+ err);  
+	        	callback(err);
+	    	}
+	    });
+
+	    connection.on('error', function(err) {
+	          log.error('Error in connection database. '+ err); 
+	          if(connection) connection.release();
+	          callback(err);
+	    });
+	});
+};
+
 
 
 exports.GoalRepository = GoalRepository;

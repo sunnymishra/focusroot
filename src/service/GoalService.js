@@ -160,7 +160,7 @@ GoalService.fetchGoal = function(userGoalId, callback) {
 	var serviceCallback = function(error, success, goal) {
 		if (error) {
 			log.error('Error during DB access');
-		  	callback(error, {"success":false, "description": "Could not fetch list due to unexpected error. Please try again."}); 
+		  	callback(error, {"success":false, "description": "Could not fetch Goal due to unexpected error. Please try again."}); 
 		} else {
 			if(success && goal && typeof goal!=='undefined'){
 				goal.goalStartDate=goal.goalStartDate?dateFormat(goal.goalStartDate, nconf.get('myDateFormat')):null;
@@ -168,13 +168,34 @@ GoalService.fetchGoal = function(userGoalId, callback) {
 				
 				callback(null, {"success":true, "goal":goal});
 			}else if(!success)
-	       		callback(null, {"success":false, "description":"userGoalId didn\'t exist:"+userGoalId});
+	       		callback(null, {"success":false, "description":"userGoalId doesn\'t exist:"+userGoalId});
 	    }
 	};
 
 	GoalRepository.fetchGoal(userGoalId, serviceCallback);
 
 	log.debug('Exiting GoalService.fetchGoal');
+};
+
+
+GoalService.fetchGoalTracker = function(userGoalId, callback) {
+	log.debug('Inside fetchGoalTracker service');
+
+	var serviceCallback = function(error, success, goalTracker) {
+		if (error) {
+			log.error('Error during DB access');
+		  	callback(error, {"success":false, "description": "Could not fetch GoalTracker due to unexpected error. Please try again."}); 
+		} else {
+			if(success){
+				callback(null, {"success":true, "goalTracker":goalTracker});
+			}else
+	       		callback(null, {"success":false, "description":"userGoalId doesn\'t exist:"+userGoalId});
+	    }
+	};
+
+	GoalRepository.fetchGoalTracker(userGoalId, serviceCallback);
+
+	log.debug('Exiting GoalService.fetchGoalTracker');
 };
 
 exports.GoalService = GoalService;
