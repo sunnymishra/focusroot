@@ -133,7 +133,8 @@ CREATE TABLE `f_user` (
   `createdDate` date DEFAULT NULL,
   `modifiedDate` date DEFAULT NULL,
   `active` bit(1) NOT NULL,
-  PRIMARY KEY (`userId`)
+  PRIMARY KEY (`userId`),
+  UNIQUE KEY (userName, email)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------

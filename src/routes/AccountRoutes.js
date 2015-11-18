@@ -12,7 +12,7 @@ router.post('/register', function(req, res) {
     	  	res.status(409).send(error);
     	} else {
         	res.json({"userId":result});
-        }
+      }
    	};
    	
 	AccountService.register(user, registerCallback);
@@ -34,9 +34,9 @@ router.post('/login', function(req, res) {
   log.debug('Exiting from /login router');
 });
 
-router.get('/isAccountExist/:email', function(req, res, next) {
+router.get('/isAccountExist', function(req, res, next) {
   log.debug('Inside /findByEmail router');
-  var user = req.body;
+  var email = req.query.email;
   var findByEmailCallback = function(error, result) {
     if (error) {
           res.status(409).send(error);
@@ -45,7 +45,7 @@ router.get('/isAccountExist/:email', function(req, res, next) {
         }
     };
 
-  AccountService.isAccountExist(req.params.email, findByEmailCallback);
+  AccountService.isAccountExist(email, findByEmailCallback);
   log.debug('exiting from /findByEmail router');
 
 });

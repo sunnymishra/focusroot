@@ -16,7 +16,7 @@ GoalRepository.fetchMyGoalList = function(userId, callback) {
 	    log.debug('connected as id ' + connection.threadId);
 	    
 	    var sql = 
-	    	"SELECT g.*, ug.goalStartDate, ug.goalEndDate, ug.goalProgressPercent, ug.isGoalAchieved from F_GOAL AS g "+
+	    	"SELECT g.*, ug.userGoalId, ug.goalStartDate, ug.goalEndDate, ug.goalProgressPercent, ug.isGoalAchieved from F_GOAL AS g "+
 	    	"INNER JOIN F_USER_GOAL AS ug ON g.goalId=ug.goalId "+
 	    	"where ug.userId = ? AND g.active = ? AND ug.active = ? ";
 	    connection.query(sql, [userId, userId, 1, 1], function(err, rows, fields){

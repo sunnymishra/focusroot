@@ -8,8 +8,7 @@ var nconf = require('nconf');
 var path = require('path');
 var log = require(path.join(path.dirname(require.main.filename),'../lib/logger.js'));
 
-AccountService = function() {
-};
+function AccountService() {};
 
 
 AccountService.register = function(user, callback) {
@@ -38,10 +37,6 @@ AccountService.isAccountExist = function(email, callback) {
 	//user.created_date=dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
 	log.debug('isAccountExist for email: ' + email);
 
-/*	var mailConfig = {
-		"mailhost": nconf.get('mailhost')
-	};
-*/
 	var findByEmailCallback = function(error, isSuccess, userId) {
 		if (error) {
 			log.error('Error during DB access');

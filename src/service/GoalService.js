@@ -4,7 +4,7 @@ var path = require('path');
 var log = require(path.join(path.dirname(require.main.filename),'../lib/logger.js'));
 var dateFormat = require('dateFormat');
 
-GoalService = function() {
+GoalService = function() { 
 };
 
 
