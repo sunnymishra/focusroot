@@ -58,7 +58,8 @@ AccountService.isAccountExist = function(email, callback) {
 
 
 
-AccountService.authenticate = function(user, callback) { 
+AccountService.authenticate = function(user, callback) {
+	log.debug('email:\'%s\',password:\'%s\'',user.email, user.password);
 	user.password=Util.encryptKey(user.password);
 	UserRepository.authenticate(user, function(err, isSuccess, result){
 		if (err) {

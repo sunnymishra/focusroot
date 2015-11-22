@@ -11,7 +11,7 @@ router.post('/register', function(req, res) {
 		if (error) {
     	  	res.status(409).send(error);
     	} else {
-        	res.json({"userId":result});
+        	res.json(result);
       }
    	};
    	
