@@ -99,6 +99,23 @@ router.get('/mygoaltracker/:userGoalId', function(req, res) {
   log.debug('exiting from /mygoaltracker GET router');
 });
 
+router.get('/goallist', function(req, res) {
+  var tagId = req.query.tagId;
+  var goalTypeId = req.query.goalTypeId;
+  log.debug('Inside /goallist GET router. tagId: %s & goalTypeId: %s', tagId, goalTypeId);
+  
+  var routerCallback = function(error, result) {
+    if (error) {
+          res.status(409).send(error);
+      } else {
+          res.json(result);
+        }
+    };
+    
+  GoalService.fetchGoalList(tagId, goalTypeId, routerCallback);
+  log.debug('exiting from /goallist GET router');
+});
+
 module.exports = router;
 
 

@@ -198,4 +198,22 @@ GoalService.fetchGoalTracker = function(userGoalId, callback) {
 	log.debug('Exiting GoalService.fetchGoalTracker');
 };
 
+GoalService.fetchGoalList = function(tagId, goalTypeId, callback) {
+	log.debug('Inside fetchGoalList');
+
+	var serviceCallback = function(error, result) {
+		if (error) {
+			log.error('Error during DB access');
+		  	callback(error, {"success":false, "description": "Could not fetch list due to unexpected error. Please try again."}); 
+		} else {
+
+	       callback(null, {"success":true, "goalList":result});
+	    }
+	};
+
+	GoalRepository.fetchGoalList(tagId, goalTypeId, serviceCallback);
+
+	log.debug('Exiting GoalService.fetchGoalList');
+};
+
 exports.GoalService = GoalService;

@@ -13,6 +13,7 @@ CREATE TABLE `f_goal` (
   `goalDescription` varchar(500) DEFAULT NULL,
   `goalTargetValue` int(11) DEFAULT NULL,
   `goalUnit` varchar(12) DEFAULT NULL,
+  `isPrivateGoal` bit(1) DEFAULT b'0',
   `createdDate` date DEFAULT NULL,
   `createdBy` bigint(20) DEFAULT NULL,
   `modifiedDate` date DEFAULT NULL,
@@ -156,7 +157,6 @@ CREATE TABLE `f_user_goal` (
   `timePer` int(11) DEFAULT NULL,
   `period` varchar(1) DEFAULT NULL,
   `isGoalAchieved` bit(1) DEFAULT b'0',
-  `isPrivateGoal` bit(1) DEFAULT b'0',
   `createdDate` date DEFAULT NULL,
   `createdBy` int(11) DEFAULT NULL,
   `modifiedDate` date DEFAULT NULL,
@@ -175,3 +175,4 @@ CREATE TABLE `f_user_goal` (
 INSERT INTO `f_user_goal` VALUES ('1', '1', '1', '90', '2015-10-18', '2015-11-18', null, null, '', '', '2015-11-10', null, '2015-11-11', null, '');
 INSERT INTO `f_user_goal` VALUES ('2', '1', '2', null, '2015-10-20', '2015-12-20', null, null, '', '', '2015-11-10', null, null, null, '');
 INSERT INTO `f_user_goal` VALUES ('3', '1', '3', null, '2015-10-11', '2015-12-16', null, null, '', '', '2015-11-10', null, null, null, '');
+

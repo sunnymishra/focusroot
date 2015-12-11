@@ -296,5 +296,39 @@ GoalRepository.fetchGoalTracker = function(userGoalId, callback) {
 };
 
 
+GoalRepository.fetchGoalList = function(tagId, goalTypeId, callback) {
+	connectionPool.getConnection(function(err,connection){
+	    if (err) {
+	    	log.debug('database connectivity error'+ err);
+	      	if(connection) connection.release();
+	      	callback(err);
+	    }
+
+	    log.debug('connected as id ' + connection.threadId);
+	    
+	    var sql = 
+	    	"SELECT g.goalId, g.tagId, g.goalTypeId, g.goalName, g.goalDescription "+
+	    	"from f_goal g "+
+	    	"where g.tagId = ? AND g.goalTypeId = ? AND g.active = ? AND g.isPrivateGoal = ? ";
+
+	    connection.query(sql, [tagId, goalTypeId, 1, 0], function(err, rows, fields){
+	        connection.release();
+	        if(!err) {
+	        	log.debug('Fetched result:', rows);
+	            callback(null, rows);
+	        } else{
+	        	log.error('Error while performing Query. '+ err);  
+	        	callback(err);
+	    	}
+	    });
+
+	    connection.on('error', function(err) {
+	          log.error('Error in connection database. '+ err); 
+	          if(connection) connection.release();
+	          callback(err);
+	    });
+	});
+};
+
 
 exports.GoalRepository = GoalRepository;
