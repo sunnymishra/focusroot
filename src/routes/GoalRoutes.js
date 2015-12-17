@@ -50,22 +50,6 @@ router.post('/mygoal', function(req, res) {
   log.debug('exiting from /mygoal POST router');
 });
 
-
-router.post('/goallog', function(req, res) {
-  log.debug('Inside /goallog POST router');
-  var goalLogDetails=req.body;
-  var routerCallback = function(error, result) {
-    if (error) {
-          res.status(409).send(error);
-      } else {
-          res.json(result);
-        }
-    };
-    
-  GoalService.createGoalLog(goalLogDetails, routerCallback);
-  log.debug('exiting from /goallog POST router');
-});
-
 router.get('/mygoal', function(req, res) {
   log.debug('Inside /mygoal GET router');
   var userGoalId=req.query.userGoalId;
@@ -82,6 +66,22 @@ router.get('/mygoal', function(req, res) {
   GoalService.fetchUserGoal(userGoalId, routerCallback);
   log.debug('exiting from /mygoal GET router');
 });
+
+router.post('/goallog', function(req, res) {
+  log.debug('Inside /goallog POST router');
+  var goalLogDetails=req.body;
+  var routerCallback = function(error, result) {
+    if (error) {
+          res.status(409).send(error);
+      } else {
+          res.json(result);
+        }
+    };
+    
+  GoalService.createGoalLog(goalLogDetails, routerCallback);
+  log.debug('exiting from /goallog POST router');
+});
+
 
 router.get('/goaltracker', function(req, res) {
   log.debug('Inside /goaltracker GET router');
@@ -117,7 +117,6 @@ router.get('/goalmembers', function(req, res) {
 
 
 router.get('/usergoal', function(req, res) {
-  var userGoalDetails=req.body;
   var userId=req.query.userId;
   var goalId=req.query.goalId;
   //var friend=req.query.friend;
@@ -135,7 +134,22 @@ router.get('/usergoal', function(req, res) {
   log.debug('exiting from /usergoal GET router');
 });
 
+router.get('/usergoallist', function(req, res) {
+  var friendUserId=req.query.friendUserId;
+  var loggedInUserId=req.query.loggedInUserId;
+  log.debug('Inside /userGoalList?friendUserId=%s&loggedInUserId=%s GET router', friendUserId, loggedInUserId);
 
+  var routerCallback = function(error, result) {
+    if (error) {
+      res.status(409).send(error);
+    } else {
+      res.json(result);
+    }
+  };
+
+  GoalService.fetchUserGoalList(friendUserId, loggedInUserId, routerCallback);
+  log.debug('exiting from /usergoallist GET router');
+});
 
 
 
@@ -184,6 +198,8 @@ router.post('/usergoal', function(req, res) {
   GoalService.createUserGoal(userGoalDetails, routerCallback);
   log.debug('exiting from /usergoal POST router');
 });
+
+
 
 module.exports = router;
 

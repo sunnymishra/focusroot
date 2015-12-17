@@ -402,4 +402,45 @@ GoalRepository.fetchGoalMemberList = function(goalId, callback) {
 };
 
 
+GoalRepository.fetchUserGoalList = function(friendUserId, loggedInUserId, callback) {
+	connectionPool.getConnection(function(err,connection){
+	    if (err) {
+	    	log.debug('database connectivity error'+ err);
+	      	if(connection) connection.release();
+	      	callback(err);
+	    }
+
+	    log.debug('connected as id ' + connection.threadId);
+	    
+	    var sql = 
+	    	"select ug1.goalId, ug1.userGoalId, goalName, g.tagId, tagName  , tempTable.goalId as commonGoal "+
+			"from f_goal g "+
+			"Join f_tag t on g.tagId=t.tagId "+
+			"Join f_user_Goal ug1 on ug1.goalId=g.goalId "+
+			"left outer join "+
+			"(select goalId from f_user_goal ug2 where ug2.userId=? and ug2.active=?) tempTable on tempTable.goalId=ug1.goalId "+
+			"where  ug1.userId=?  and ug1.active=? and g.active=? ";
+
+	    connection.query(sql, [loggedInUserId, 1, friendUserId, 1, 1], function(err, rows, fields){
+	        connection.release();
+	        if(!err) {
+	        	log.debug('Fetched result:', rows);
+	            callback(null, rows);
+	        } else{
+	        	log.error('Error while performing Query. '+ err);  
+	        	callback(err);
+	    	}
+	    });
+
+	    connection.on('error', function(err) {
+	          log.error('Error in connection database. '+ err); 
+	          if(connection) connection.release();
+	          callback(err);
+	    });
+	});
+};
+
+
+
+
 exports.GoalRepository = GoalRepository;

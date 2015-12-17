@@ -299,4 +299,26 @@ GoalService.fetchUserGoal = function(userId, goalId, callback) {
 	log.debug('Exiting GoalService.fetchUserGoal');
 };
 
+
+GoalService.fetchUserGoalList = function(friendUserId, loggedInUserId, callback) {
+	log.debug('Inside fetchUserGoalList');
+
+	var serviceCallback = function(error, result) {
+		if (error) {
+			log.error('Error during DB access');
+		  	callback(error, {"success":false, "description": "Could not fetch list due to unexpected error. Please try again."}); 
+		} else {
+
+	       callback(null, {"success":true, "userGoalList":result});
+	    }
+	};
+
+	GoalRepository.fetchUserGoalList(friendUserId, loggedInUserId, serviceCallback);
+
+	log.debug('Exiting GoalService.fetchUserGoalList');
+};
+
+
+
+
 exports.GoalService = GoalService;
