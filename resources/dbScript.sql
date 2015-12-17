@@ -121,13 +121,15 @@ INSERT INTO `f_tag` VALUES ('4', 'Sport', null, '2015-11-01', '');
 DROP TABLE IF EXISTS `f_user`;
 CREATE TABLE `f_user` (
   `userId` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `userName` varchar(200) DEFAULT NULL,
+  `displayName` varchar(200) DEFAULT NULL,
   `profilePicPath` varchar(500) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `phone` varchar(20) DEFAULT NULL,
   `city` varchar(50) DEFAULT NULL,
   `zipCode` varchar(10) DEFAULT NULL,
-  `browniePoints` int(11) DEFAULT NULL,
+  `goldCoins` int(11) DEFAULT 0;
+  `silverCoins` int(11) DEFAULT 0;
+  `aboutMe` varchar(150) DEFAULT NULL;
   `password` varchar(200) DEFAULT NULL,
   `forgotPasswordCode` varchar(200) DEFAULT NULL,
   `isPasswordVerified` bit(1) DEFAULT NULL,
@@ -165,6 +167,7 @@ CREATE TABLE `f_user_goal` (
   PRIMARY KEY (`userGoalId`),
   KEY `userId` (`userId`),
   KEY `goalId` (`goalId`),
+  UNIQUE KEY (`userId`, `goalId`),
   CONSTRAINT `f_user_goal_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `f_user` (`userId`),
   CONSTRAINT `f_user_goal_ibfk_2` FOREIGN KEY (`goalId`) REFERENCES `f_goal` (`goalId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
