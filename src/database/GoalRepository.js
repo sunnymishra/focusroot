@@ -218,7 +218,7 @@ GoalRepository.updateGoalProgressPercent = function(obj, callback) {
 };
 
 
-GoalRepository.fetchGoal = function(userGoalId, callback) {
+GoalRepository.fetchGoalWithUserGoalId = function(userGoalId, callback) {
 	connectionPool.getConnection(function(err,connection){
 	    if (err) {
 	    	log.debug('database connectivity error'+ err);
@@ -257,7 +257,7 @@ GoalRepository.fetchGoal = function(userGoalId, callback) {
 	});
 };
 
-GoalRepository.fetchGoal = function(userId, goalId, callback) {
+GoalRepository.fetchUserGoal = function(userId, goalId, callback) {
 	connectionPool.getConnection(function(err,connection){
 	    if (err) {
 	    	log.debug('database connectivity error'+ err);
@@ -295,6 +295,7 @@ GoalRepository.fetchGoal = function(userId, goalId, callback) {
 	    });
 	});
 };
+
 GoalRepository.fetchGoalTracker = function(userGoalId, callback) {
 	connectionPool.getConnection(function(err,connection){
 	    if (err) {
@@ -333,7 +334,7 @@ GoalRepository.fetchGoalTracker = function(userGoalId, callback) {
 };
 
 
-GoalRepository.fetchGoalList = function(tagId, goalTypeId, callback) {
+GoalRepository.fetchGoalList = function(tagId, goalTypeId, userId, callback) {
 	connectionPool.getConnection(function(err,connection){
 	    if (err) {
 	    	log.debug('database connectivity error'+ err);
@@ -345,10 +346,12 @@ GoalRepository.fetchGoalList = function(tagId, goalTypeId, callback) {
 	    
 	    var sql = 
 	    	"SELECT g.goalId, g.tagId, g.goalTypeId, g.goalName, g.goalDescription "+
-	    	"from f_goal g "+
-	    	"where g.tagId = ? AND g.goalTypeId = ? AND g.active = ? AND g.isPrivateGoal = ? ";
-
-	    connection.query(sql, [tagId, goalTypeId, 1, 0], function(err, rows, fields){
+			"from f_goal g  "+
+			"left outer join f_user_goal ug on g.goalId=ug.goalId and ug.userId=? and ug.active=? "+
+			"where ug.goalId is NULL "+
+			"and g.tagId = ? AND g.goalTypeId = ? AND g.active = ? AND g.isPrivateGoal = ? ";
+			// The Left outer join is done to remove any Goals of this User showing up in result
+	    connection.query(sql, [userId, 1, tagId, goalTypeId, 1, 0], function(err, rows, fields){
 	        connection.release();
 	        if(!err) {
 	        	log.debug('Fetched result:', rows);
@@ -367,7 +370,7 @@ GoalRepository.fetchGoalList = function(tagId, goalTypeId, callback) {
 	});
 };
 
-GoalRepository.fetchGoalMemberList = function(goalId, callback) {
+GoalRepository.fetchMyGoalMemberList = function(goalId, callback) {
 	connectionPool.getConnection(function(err,connection){
 	    if (err) {
 	    	log.debug('database connectivity error'+ err);
@@ -440,7 +443,72 @@ GoalRepository.fetchUserGoalList = function(friendUserId, loggedInUserId, callba
 	});
 };
 
+GoalRepository.fetchGoalDetails = function(goalId, callback) {
+	connectionPool.getConnection(function(err,connection){
+	    if (err) {
+	    	log.debug('database connectivity error'+ err);
+	      	if(connection) connection.release();
+	      	callback(err);
+	    }   
 
+	    log.debug('connected as id ' + connection.threadId);
+	    
+	    var sql = 	'Select g.goalId, g.goalName, g.goalDescription, g.goalTypeId, gt.goalTypeName, g.tagId, t.tagName  from F_GOAL g '+
+					'inner join F_GOAL_TYPE gt on g.goalTypeId=gt.goalTypeId '+
+					'inner join F_TAG t on g.tagId=t.tagId '+
+	    			'where g.goalId=? and g.active=? ';
+	    connection.query(sql, [goalId, 1], function(err, rows){
+            connection.release();
+            if(!err) {
+	        	log.debug('Fetched result:', rows[0]);
+	            callback(null, rows[0]);
+	        } else{
+	        	log.error('Error while performing Query. '+ err);  
+	        	callback(err);
+	    	}
+        });
+
+	    connection.on('error', function(err) {
+	          log.error('Error in connection database. '+ err); 
+	          if(connection) connection.release();
+	          callback(err);
+	    });
+	});
+};
+
+GoalRepository.fetchGoalMemberList = function(goalId, callback) {
+	connectionPool.getConnection(function(err,connection){
+	    if (err) {
+	    	log.debug('database connectivity error'+ err);
+	      	if(connection) connection.release();
+	      	callback(err);
+	    }
+
+	    log.debug('connected as id ' + connection.threadId);
+	    
+	    var sql = 
+	    	"select u.userId, u.displayName "+
+	    	"from f_user_goal ug join f_user u on ug.userId=u.userId "+
+			"where goalId=? and ug.active=? ";
+
+	    connection.query(sql, [goalId, 1], function(err, rows, fields){
+	        connection.release();
+	        if(!err) {
+	        	log.debug('Fetched result:', rows);
+	            callback(null, rows);
+	        } else{
+	        	log.error('Error while performing Query. '+ err);  
+	        	callback(err);
+	    	}
+	    });
+
+	    connection.on('error', function(err) {
+	          log.error('Error in connection database. '+ err); 
+	          if(connection) connection.release();
+	          callback(err);
+	    });
+	});
+};
 
 
 exports.GoalRepository = GoalRepository;

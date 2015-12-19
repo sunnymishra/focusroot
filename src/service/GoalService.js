@@ -155,8 +155,8 @@ function calculateGoalProgress(goal, goalLog){
 };
 
 
-GoalService.fetchUserGoal = function(userGoalId, callback) {
-	log.debug('Inside fetchUserGoal service');
+GoalService.fetchMyUserGoal = function(userGoalId, callback) {
+	log.debug('Inside fetchMyUserGoal service');
 
 	var serviceCallback = function(error, success, goal) {
 		if (error) {
@@ -173,22 +173,32 @@ GoalService.fetchUserGoal = function(userGoalId, callback) {
 	    }
 	};
 
-	GoalRepository.fetchGoal(userGoalId, serviceCallback);
+	GoalRepository.fetchGoalWithUserGoalId(userGoalId, serviceCallback);
 
-	log.debug('Exiting GoalService.fetchUserGoal');
+	log.debug('Exiting GoalService.fetchMyUserGoal');
 };
 
 
-GoalService.fetchGoalTracker = function(userGoalId, callback) {
+GoalService.fetchGoalTracker = function(userGoalId, isLessDataRequired, callback) {
 	log.debug('Inside fetchGoalTracker service');
 
-	var serviceCallback = function(error, success, goalTracker) {
+	var serviceCallback = function(error, success, goalTrackerList) {
 		if (error) {
 			log.error('Error during DB access');
 		  	callback(error, {"success":false, "description": "Could not fetch GoalTracker due to unexpected error. Please try again."}); 
 		} else {
 			if(success){
-				callback(null, {"success":true, "goalTracker":goalTracker});
+				if(isLessDataRequired == false)
+					callback(null, {"success":true, "goalTracker":goalTrackerList});
+				else{
+					if(goalTrackerList){
+						/*result.forEach( function (goalTrackerList){
+							// TODO remove logNotes and logUnit from each obj in List
+						)};	*/
+					}
+					callback(null, {"success":true, "goalTracker":goalTrackerList});
+				}
+
 			}else
 	       		callback(null, {"success":false, "description":"userGoalId doesn\'t exist:"+userGoalId});
 	    }
@@ -199,7 +209,7 @@ GoalService.fetchGoalTracker = function(userGoalId, callback) {
 	log.debug('Exiting GoalService.fetchGoalTracker');
 };
 
-GoalService.fetchGoalList = function(tagId, goalTypeId, callback) {
+GoalService.fetchGoalList = function(tagId, goalTypeId, userId, callback) {
 	log.debug('Inside fetchGoalList');
 
 	var serviceCallback = function(error, result) {
@@ -212,13 +222,13 @@ GoalService.fetchGoalList = function(tagId, goalTypeId, callback) {
 	    }
 	};
 
-	GoalRepository.fetchGoalList(tagId, goalTypeId, serviceCallback);
+	GoalRepository.fetchGoalList(tagId, goalTypeId, userId, serviceCallback);
 
 	log.debug('Exiting GoalService.fetchGoalList');
 };
 
-GoalService.fetchGoalMemberList = function(goalId, callback) {
-	log.debug('Inside fetchGoalMemberList');
+GoalService.fetchMyGoalMemberList = function(goalId, callback) {
+	log.debug('Inside fetchMyGoalMemberList');
 
 	var serviceCallback = function(error, result) {
 		if (error) {
@@ -230,9 +240,9 @@ GoalService.fetchGoalMemberList = function(goalId, callback) {
 	    }
 	};
 
-	GoalRepository.fetchGoalMemberList(goalId, serviceCallback);
+	GoalRepository.fetchMyGoalMemberList(goalId, serviceCallback);
 
-	log.debug('Exiting GoalService.fetchGoalMemberList');
+	log.debug('Exiting GoalService.fetchMyGoalMemberList');
 };
 
 
@@ -278,7 +288,7 @@ GoalService.fetchUserGoal = function(userId, goalId, callback) {
 					  	callback(error, {"success":false, "description": "Could not fetch Goal due to unexpected error. Please try again."}); 
 					} else {
 						if(success && goal && typeof goal!=='undefined'){
-							log.debug("I reached here....");
+							log.debug("usergoal obj is fetched successfully from DB.");
 							goal.goalStartDate=goal.goalStartDate?dateFormat(goal.goalStartDate, nconf.get('myDateFormat')):null;
 							goal.goalEndDate=goal.goalEndDate?dateFormat(goal.goalEndDate, nconf.get('myDateFormat')):null;
 							
@@ -287,7 +297,7 @@ GoalService.fetchUserGoal = function(userId, goalId, callback) {
 				       		callback(null, {"success":false, "description":"userGoalId doesn\'t exist:"+userGoalId});
 				    }
 				}
-				GoalRepository.fetchGoal(userId, goalId, innerServiceCallback);
+				GoalRepository.fetchUserGoal(userId, goalId, innerServiceCallback);
 
 			}else
 	       		callback(null, {"success":false, "description":"userId doesn\'t exist:"+userId});
@@ -320,5 +330,31 @@ GoalService.fetchUserGoalList = function(friendUserId, loggedInUserId, callback)
 
 
 
+GoalService.fetchGoal = function(goalId, callback) {
+	log.debug('Inside fetchGoal');
+
+	var outerServiceCallback = function(error, goal) {
+		if (error) {
+			log.error('Error during DB access for goal fetch');
+			callback(error, {"success":false, "description": "Could not fetch goal obj due to unexpected DB error. Please try again."}); 
+		} else {
+				callback(null, {"success":true, "goal":goal});
+				var innerServiceCallback = function(error, result) {
+					if (error) {
+						log.error('Error during DB access');
+					  	callback(error, {"success":false, "description": "Could not fetch list due to unexpected error. Please try again."}); 
+					} else {
+
+				       callback(null, {"success":true, "goalMemberList":result});
+				    }
+				};
+				GoalRepository.fetchGoalMemberList(goalId, innerServiceCallback);
+	    }
+	};
+
+	GoalRepository.fetchGoalDetails(goalId, outerServiceCallback);
+
+	log.debug('Exiting GoalService.fetchGoal');
+};
 
 exports.GoalService = GoalService;
