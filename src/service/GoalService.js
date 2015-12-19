@@ -17,7 +17,7 @@ GoalService.fetchMyGoalList = function(userId, callback) {
 			log.error('Error during DB access');
 		  	callback(error, {"success":false, "description": "Could not fetch list due to unexpected error. Please try again."}); 
 		} else {
-			if(result){
+			if(result && result !== 'undefined' && result.length > 0){
 				result.forEach( function (goal)
 				{
 				    goal.createdDate=goal.createdDate?dateFormat(goal.createdDate, nconf.get('myDateFormat')):null;
@@ -188,15 +188,19 @@ GoalService.fetchGoalTracker = function(userGoalId, isLessDataRequired, callback
 		  	callback(error, {"success":false, "description": "Could not fetch GoalTracker due to unexpected error. Please try again."}); 
 		} else {
 			if(success){
-				if(isLessDataRequired == false)
-					callback(null, {"success":true, "goalTracker":goalTrackerList});
-				else{
-					if(goalTrackerList){
-						/*result.forEach( function (goalTrackerList){
-							// TODO remove logNotes and logUnit from each obj in List
-						)};	*/
+				if(isLessDataRequired === "true"){
+					var goalUnit = goalTrackerList[0].logUnit;
+					if(goalTrackerList && goalTrackerList!== 'undefined' && goalTrackerList.length > 0){
+						goalTrackerList.forEach( function (goalTracker){
+							// Removing logNotes and logUnit from each obj in List to make it a lite JSON object
+							delete goalTracker.logNotes;
+							delete goalTracker.logUnit;
+						});	
 					}
-					callback(null, {"success":true, "goalTracker":goalTrackerList});
+					callback(null, {"success":true, "goalUnit":goalUnit, "goalTracker":goalTrackerList});
+				}	
+				else{
+					callback(null, {"success":true, "goalTracker":goalTrackerList});				
 				}
 
 			}else
@@ -338,17 +342,17 @@ GoalService.fetchGoal = function(goalId, callback) {
 			log.error('Error during DB access for goal fetch');
 			callback(error, {"success":false, "description": "Could not fetch goal obj due to unexpected DB error. Please try again."}); 
 		} else {
-				callback(null, {"success":true, "goal":goal});
-				var innerServiceCallback = function(error, result) {
-					if (error) {
-						log.error('Error during DB access');
-					  	callback(error, {"success":false, "description": "Could not fetch list due to unexpected error. Please try again."}); 
-					} else {
-
-				       callback(null, {"success":true, "goalMemberList":result});
-				    }
-				};
-				GoalRepository.fetchGoalMemberList(goalId, innerServiceCallback);
+			var innerServiceCallback = function(error, goalMemberList) {
+				if (error) {
+					log.error('Error during DB access');
+				  	callback(error, {"success":false, "description": "Could not fetch list due to unexpected error. Please try again."}); 
+				} else {
+					if(goalMemberList && typeof goalMemberList!=='undefined')
+						goalMemberList.forEach( function (goalMember){goalMember.isGoalAchieved=goalMember.isGoalAchieved[0];});
+					callback(null, {"success":true, "goal":goal, "goalMemberList":goalMemberList});
+			    }
+			};
+			GoalRepository.fetchGoalMemberList(goalId, innerServiceCallback);
 	    }
 	};
 

@@ -453,10 +453,11 @@ GoalRepository.fetchGoalDetails = function(goalId, callback) {
 
 	    log.debug('connected as id ' + connection.threadId);
 	    
-	    var sql = 	'Select g.goalId, g.goalName, g.goalDescription, g.goalTypeId, gt.goalTypeName, g.tagId, t.tagName  from F_GOAL g '+
-					'inner join F_GOAL_TYPE gt on g.goalTypeId=gt.goalTypeId '+
-					'inner join F_TAG t on g.tagId=t.tagId '+
-	    			'where g.goalId=? and g.active=? ';
+	    var sql = 	
+	    	'Select g.goalId, g.goalName, g.goalDescription, g.goalTypeId, gt.goalTypeName, g.tagId, t.tagName  from F_GOAL g '+
+			'inner join F_GOAL_TYPE gt on g.goalTypeId=gt.goalTypeId '+
+			'inner join F_TAG t on g.tagId=t.tagId '+
+			'where g.goalId=? and g.active=? ';
 	    connection.query(sql, [goalId, 1], function(err, rows){
             connection.release();
             if(!err) {
@@ -487,11 +488,11 @@ GoalRepository.fetchGoalMemberList = function(goalId, callback) {
 	    log.debug('connected as id ' + connection.threadId);
 	    
 	    var sql = 
-	    	"select u.userId, u.displayName "+
-	    	"from f_user_goal ug join f_user u on ug.userId=u.userId "+
-			"where goalId=? and ug.active=? ";
+	    	"select ug.userId, displayName, goldCoins, silverCoins, ug.isGoalAchieved "+
+			"from F_USER u join F_USER_GOAL ug on u.userId=ug.userId "+
+			"where goalId=? and ug.active=? and u.active=? ";
 
-	    connection.query(sql, [goalId, 1], function(err, rows, fields){
+	    connection.query(sql, [goalId, 1, 1], function(err, rows, fields){
 	        connection.release();
 	        if(!err) {
 	        	log.debug('Fetched result:', rows);

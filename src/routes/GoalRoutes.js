@@ -76,10 +76,10 @@ router.get('/goaltracker', function(req, res) {
   var routerCallback = function(error, result) {
     if (error) {
         res.status(409).send(error);
-      } else {
-        res.json(result);
-      }
-    };
+    } else {
+      res.json(result);
+    }
+  };
     
   GoalService.fetchGoalTracker(userGoalId, isLessDataRequired, routerCallback);
   log.debug('exiting from /goaltracker GET router');
