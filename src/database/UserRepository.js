@@ -15,7 +15,7 @@ UserRepository.find = function(id, callback) {
 
 	    log.debug('connected as id ' + connection.threadId);
 	    
-	    connection.query("SELECT * from F_User Where userId = ? and active = ? ", [id, 1], function(err, rows, fields){
+	    connection.query("SELECT userId, displayName, email, aboutMe, silverCoins, goldCoins from F_User Where userId = ? and active = ? ", [id, 1], function(err, rows, fields){
 	        connection.release();
 	        if(!err) {
 	        	log.debug('Fetched result:', rows);

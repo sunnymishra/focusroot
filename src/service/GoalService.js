@@ -195,7 +195,7 @@ GoalService.fetchGoalTracker = function(userGoalId, isLessDataRequired, callback
 							// Removing logNotes and logUnit from each obj in List to make it a lite JSON object
 							delete goalTracker.logNotes;
 							delete goalTracker.logUnit;
-						});	
+						});
 					}
 					callback(null, {"success":true, "goalUnit":goalUnit, "goalTracker":goalTrackerList});
 				}	
@@ -276,8 +276,8 @@ GoalService.createUserGoal = function(userGoalDetails, callback) {
 };
 
 
-GoalService.fetchUserGoal = function(userId, goalId, callback) {
-	log.debug('Inside fetchUserGoal');
+GoalService.fetchMemberUserGoal = function(userId, goalId, callback) {
+	log.debug('Inside fetchMemberUserGoal');
 
 	var outerServiceCallback = function(error, user) {
 		if (error) {
@@ -295,13 +295,14 @@ GoalService.fetchUserGoal = function(userId, goalId, callback) {
 							log.debug("usergoal obj is fetched successfully from DB.");
 							goal.goalStartDate=goal.goalStartDate?dateFormat(goal.goalStartDate, nconf.get('myDateFormat')):null;
 							goal.goalEndDate=goal.goalEndDate?dateFormat(goal.goalEndDate, nconf.get('myDateFormat')):null;
-							
+							goal.isGoalAchieved=goal.isGoalAchieved[0];
+					
 							callback(null, {"success":true, "user":user, "goal":goal});
 						}else
 				       		callback(null, {"success":false, "description":"userGoalId doesn\'t exist:"+userGoalId});
 				    }
 				}
-				GoalRepository.fetchUserGoal(userId, goalId, innerServiceCallback);
+				GoalRepository.fetchMemberUserGoal(userId, goalId, innerServiceCallback);
 
 			}else
 	       		callback(null, {"success":false, "description":"userId doesn\'t exist:"+userId});
@@ -310,7 +311,7 @@ GoalService.fetchUserGoal = function(userId, goalId, callback) {
 
 	UserRepository.find(userId, outerServiceCallback);
 
-	log.debug('Exiting GoalService.fetchUserGoal');
+	log.debug('Exiting GoalService.fetchMemberUserGoal');
 };
 
 
@@ -360,5 +361,43 @@ GoalService.fetchGoal = function(goalId, callback) {
 
 	log.debug('Exiting GoalService.fetchGoal');
 };
+
+
+GoalService.fetchNonMemberUserGoal = function(userId, callback) {
+	log.debug('Inside fetchNonMemberUserGoal');
+
+	var outerServiceCallback = function(error, user) {
+		if (error) {
+			log.error('Error during DB access for user fetch');
+			callback(error, {"success":false, "description": "Could not fetch user obj due to unexpected DB error. Please try again."}); 
+		} else {
+			if(user && typeof user!=='undefined' && user.length > 0){
+				//callback(null, {"success":true, "userList":user});
+				var innerServiceCallback = function(error, success, goal) {
+					if (error) {
+						log.error('Error during DB access');
+					  	callback(error, {"success":false, "description": "Could not fetch Goal due to unexpected error. Please try again."}); 
+					} else {
+						if(success && goal && typeof goal!=='undefined'){
+							log.debug("nonmember goallist obj is fetched successfully from DB.");
+							goal.isGoalAchieved=goal.isGoalAchieved[0];
+
+							callback(null, {"success":true, "user":user, "goal":goal});
+						}else
+				       		callback(null, {"success":false, "description":"user\'s goalList doesn\'t exist:"+userId});
+				    }
+				}
+				GoalRepository.fetchNonMemberGoalList(userId, innerServiceCallback);
+
+			}else
+	       		callback(null, {"success":false, "description":"userId doesn\'t exist:"+userId});
+	    }
+	};
+
+	UserRepository.find(userId, outerServiceCallback);
+
+	log.debug('Exiting GoalService.fetchNonMemberUserGoal');
+};
+
 
 exports.GoalService = GoalService;

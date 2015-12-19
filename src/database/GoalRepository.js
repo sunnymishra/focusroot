@@ -257,7 +257,7 @@ GoalRepository.fetchGoalWithUserGoalId = function(userGoalId, callback) {
 	});
 };
 
-GoalRepository.fetchUserGoal = function(userId, goalId, callback) {
+GoalRepository.fetchMemberUserGoal = function(userId, goalId, callback) {
 	connectionPool.getConnection(function(err,connection){
 	    if (err) {
 	    	log.debug('database connectivity error'+ err);
@@ -510,6 +510,47 @@ GoalRepository.fetchGoalMemberList = function(goalId, callback) {
 	    });
 	});
 };
+
+GoalRepository.fetchNonMemberGoalList = function(userId, callback) {
+	connectionPool.getConnection(function(err,connection){
+	    if (err) {
+	    	log.debug('database connectivity error'+ err);
+	      	if(connection) connection.release();
+	      	callback(err);
+	    }   
+
+	    log.debug('connected as id ' + connection.threadId);
+	    
+	    var sql = 
+	    	"select ug.goalId, ug.userGoalId, goalName, g.tagId, tagName, ug.isGoalAchieved "+
+			"from f_goal g "+
+			"Join f_tag t on g.tagId=t.tagId "+
+			"Join f_user_Goal ug on ug.goalId=g.goalId "+
+			"where ug.userId=? and ug.active=? and g.active=? ";
+	    connection.query(sql, [userId, 1, 1], function(err, rows){
+	        connection.release();
+	        if(!err) {
+	        	if(typeof rows !== 'undefined' && rows.length > 0){
+		        	log.debug('Fetched result:', rows[0]);
+		            callback(null, true, rows[0]);
+		        }else{
+					callback(null, false);
+					log.warn('userGoalId %s doesn\'t exist !', userGoalId);
+				}
+	        } else{
+	        	log.error('Error while performing Query. '+ err);  
+	        	callback(err);
+	    	}
+	    });
+
+	    connection.on('error', function(err) {
+	          log.error('Error in connection database. '+ err); 
+	          if(connection) connection.release();
+	          callback(err);
+	    });
+	});
+};
+
 
 
 exports.GoalRepository = GoalRepository;

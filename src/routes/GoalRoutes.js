@@ -102,11 +102,11 @@ router.get('/mygoalmembers', function(req, res) {
 });
 
 
-router.get('/usergoal', function(req, res) {
+router.get('/memberusergoal', function(req, res) {
   var userId=req.query.userId;
   var goalId=req.query.goalId;
-  //var friend=req.query.friend;
-  log.debug('Inside /usergoal?userId=%s&goalId=%s GET router', userId, goalId);
+
+  log.debug('Inside /memberusergoal?userId=%s&goalId=%s GET router', userId, goalId);
 
   var routerCallback = function(error, result) {
     if (error) {
@@ -116,8 +116,8 @@ router.get('/usergoal', function(req, res) {
     }
   };
 
-  GoalService.fetchUserGoal(userId, goalId, routerCallback);
-  log.debug('exiting from /usergoal GET router');
+  GoalService.fetchMemberUserGoal(userId, goalId, routerCallback);
+  log.debug('exiting from /memberusergoal GET router');
 });
 
 router.get('/usergoallist', function(req, res) {
@@ -190,6 +190,22 @@ router.get('/goal', function(req, res) {
   log.debug('exiting from /goal GET router');
 });
 
+router.get('/nonmemberusergoal', function(req, res) {
+  var userId=req.query.userId;
+
+  log.debug('Inside /nonmemberusergoal?userId=%s& GET router', userId);
+
+  var routerCallback = function(error, result) {
+    if (error) {
+      res.status(409).send(error);
+    } else {
+      res.json(result);
+    }
+  };
+
+  GoalService.fetchNonMemberUserGoal(userId, routerCallback);
+  log.debug('exiting from /nonmemberusergoal GET router');
+});
 
 router.post('/usergoal', function(req, res) {
   log.debug('Inside /usergoal POST router');
