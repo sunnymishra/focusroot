@@ -531,8 +531,8 @@ GoalRepository.fetchNonMemberGoalList = function(userId, callback) {
 	        connection.release();
 	        if(!err) {
 	        	if(typeof rows !== 'undefined' && rows.length > 0){
-		        	log.debug('Fetched result:', rows[0]);
-		            callback(null, true, rows[0]);
+		        	log.debug('Fetched result:', rows);
+		            callback(null, true, rows);
 		        }else{
 					callback(null, false);
 					log.warn('userGoalId %s doesn\'t exist !', userGoalId);

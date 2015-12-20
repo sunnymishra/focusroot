@@ -373,16 +373,18 @@ GoalService.fetchNonMemberUserGoal = function(userId, callback) {
 		} else {
 			if(user && typeof user!=='undefined' && user.length > 0){
 				//callback(null, {"success":true, "userList":user});
-				var innerServiceCallback = function(error, success, goal) {
+				var innerServiceCallback = function(error, success, goalList) {
 					if (error) {
 						log.error('Error during DB access');
 					  	callback(error, {"success":false, "description": "Could not fetch Goal due to unexpected error. Please try again."}); 
 					} else {
-						if(success && goal && typeof goal!=='undefined'){
+						if(success && goalList && typeof goalList!=='undefined'){
 							log.debug("nonmember goallist obj is fetched successfully from DB.");
-							goal.isGoalAchieved=goal.isGoalAchieved[0];
 
-							callback(null, {"success":true, "user":user, "goal":goal});
+							if(goalList && typeof goalList!=='undefined')
+								goalList.forEach( function (goal){goal.isGoalAchieved=goal.isGoalAchieved[0];});
+					
+							callback(null, {"success":true, "user":user, "goalList":goalList});
 						}else
 				       		callback(null, {"success":false, "description":"user\'s goalList doesn\'t exist:"+userId});
 				    }

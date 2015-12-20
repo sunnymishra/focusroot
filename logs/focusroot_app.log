@@ -1,0 +1,118 @@
+2015-12-19T12:20:55.067Z - debug: Overriding 'Express' logger
+2015-12-19T12:20:56.970Z - debug: Overriding 'Express' logger
+2015-12-19T12:21:03.471Z - debug: Inside /nonmemberusergoal?userId=1& GET router
+2015-12-19T12:21:03.472Z - debug: Inside fetchNonMemberUserGoal
+2015-12-19T12:21:03.476Z - debug: Exiting GoalService.fetchNonMemberUserGoal
+2015-12-19T12:21:03.476Z - debug: exiting from /nonmemberusergoal GET router
+2015-12-19T12:21:03.484Z - debug: connected as id 120
+2015-12-19T12:21:03.488Z - debug: Fetched result: userId=1, displayName=Sunny, email=sunny@sunny.com, aboutMe=null, silverCoins=0, goldCoins=0
+2015-12-19T12:21:03.490Z - debug: connected as id 120
+2015-12-19T12:21:03.492Z - debug: Fetched result: goalId=1, userGoalId=1, goalName=Lose 10 KG, tagId=1, tagName=Fitness, 0=0
+2015-12-19T12:21:03.492Z - debug: nonmember goallist obj is fetched successfully from DB.
+2015-12-19T12:21:03.492Z - debug: nonmember goallist returning callback.
+2015-12-19T12:21:03.504Z - error: uncaughtException: callback is not a function date=Sat Dec 19 2015 17:51:03 GMT+0530 (India Standard Time), pid=2404, uid=null, gid=null, cwd=D:\Projects\FocusrootApp\code\Focusroot, execPath=C:\Program Files\nodejs\node.exe, version=v4.0.0, argv=[C:\Program Files\nodejs\node.exe, D:\Projects\FocusrootApp\code\Focusroot\bin\www], rss=44445696, heapTotal=35037696, heapUsed=24168512, loadavg=[0, 0, 0], uptime=854117.0217277, trace=[column=8, file=D:\Projects\FocusrootApp\code\Focusroot\src\service\GoalService.js, function=innerServiceCallback, line=385, method=null, native=false, column=15, file=D:\Projects\FocusrootApp\code\Focusroot\src\database\GoalRepository.js, function=Query._callback, line=535, method=_callback, native=false, column=24, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\sequences\Sequence.js, function=Query.Sequence.end, line=96, method=Sequence.end, native=false, column=8, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\sequences\Query.js, function=Query._handleFinalResultPacket, line=144, method=_handleFinalResultPacket, native=false, column=8, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\sequences\Query.js, function=Query.EofPacket, line=128, method=EofPacket, native=false, column=23, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Protocol.js, function=Protocol._parsePacket, line=274, method=_parsePacket, native=false, column=12, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Parser.js, function=Parser.write, line=77, method=write, native=false, column=16, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Protocol.js, function=Protocol.write, line=39, method=write, native=false, column=28, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\Connection.js, function=, line=96, method=null, native=false, column=13, file=events.js, function=emitOne, line=77, method=null, native=false], stack=[TypeError: callback is not a function,     at innerServiceCallback (D:\Projects\FocusrootApp\code\Focusroot\src\service\GoalService.js:385:8),     at Query._callback (D:\Projects\FocusrootApp\code\Focusroot\src\database\GoalRepository.js:535:15),     at Query.Sequence.end (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\sequences\Sequence.js:96:24),     at Query._handleFinalResultPacket (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\sequences\Query.js:144:8),     at Query.EofPacket (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\sequences\Query.js:128:8),     at Protocol._parsePacket (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Protocol.js:274:23),     at Parser.write (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Parser.js:77:12),     at Protocol.write (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Protocol.js:39:16),     at Socket.<anonymous> (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\Connection.js:96:28),     at emitOne (events.js:77:13)]
+2015-12-19T12:21:41.028Z - debug: Overriding 'Express' logger
+2015-12-19T12:22:01.606Z - debug: Overriding 'Express' logger
+2015-12-19T12:22:02.320Z - debug: Inside /nonmemberusergoal?userId=1& GET router
+2015-12-19T12:22:02.321Z - debug: Inside fetchNonMemberUserGoal
+2015-12-19T12:22:02.325Z - debug: Exiting GoalService.fetchNonMemberUserGoal
+2015-12-19T12:22:02.325Z - debug: exiting from /nonmemberusergoal GET router
+2015-12-19T12:22:02.333Z - debug: connected as id 121
+2015-12-19T12:22:02.338Z - debug: Fetched result: userId=1, displayName=Sunny, email=sunny@sunny.com, aboutMe=null, silverCoins=0, goldCoins=0
+2015-12-19T12:22:02.341Z - debug: connected as id 121
+2015-12-19T12:22:02.342Z - debug: Fetched result: goalId=1, userGoalId=1, goalName=Lose 10 KG, tagId=1, tagName=Fitness, 0=0
+2015-12-19T12:22:02.343Z - debug: nonmember goallist obj is fetched successfully from DB.
+2015-12-19T12:22:02.343Z - debug: nonmember goallist returning callback.
+2015-12-19T12:22:02.354Z - error: uncaughtException: callback1 is not a function date=Sat Dec 19 2015 17:52:02 GMT+0530 (India Standard Time), pid=11916, uid=null, gid=null, cwd=D:\Projects\FocusrootApp\code\Focusroot, execPath=C:\Program Files\nodejs\node.exe, version=v4.0.0, argv=[C:\Program Files\nodejs\node.exe, D:\Projects\FocusrootApp\code\Focusroot\bin\www], rss=44560384, heapTotal=35037696, heapUsed=23896648, loadavg=[0, 0, 0], uptime=854175.8718331, trace=[column=8, file=D:\Projects\FocusrootApp\code\Focusroot\src\service\GoalService.js, function=innerServiceCallback, line=385, method=null, native=false, column=15, file=D:\Projects\FocusrootApp\code\Focusroot\src\database\GoalRepository.js, function=Query._callback, line=535, method=_callback, native=false, column=24, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\sequences\Sequence.js, function=Query.Sequence.end, line=96, method=Sequence.end, native=false, column=8, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\sequences\Query.js, function=Query._handleFinalResultPacket, line=144, method=_handleFinalResultPacket, native=false, column=8, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\sequences\Query.js, function=Query.EofPacket, line=128, method=EofPacket, native=false, column=23, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Protocol.js, function=Protocol._parsePacket, line=274, method=_parsePacket, native=false, column=12, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Parser.js, function=Parser.write, line=77, method=write, native=false, column=16, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Protocol.js, function=Protocol.write, line=39, method=write, native=false, column=28, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\Connection.js, function=, line=96, method=null, native=false, column=13, file=events.js, function=emitOne, line=77, method=null, native=false], stack=[TypeError: callback1 is not a function,     at innerServiceCallback (D:\Projects\FocusrootApp\code\Focusroot\src\service\GoalService.js:385:8),     at Query._callback (D:\Projects\FocusrootApp\code\Focusroot\src\database\GoalRepository.js:535:15),     at Query.Sequence.end (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\sequences\Sequence.js:96:24),     at Query._handleFinalResultPacket (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\sequences\Query.js:144:8),     at Query.EofPacket (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\sequences\Query.js:128:8),     at Protocol._parsePacket (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Protocol.js:274:23),     at Parser.write (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Parser.js:77:12),     at Protocol.write (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Protocol.js:39:16),     at Socket.<anonymous> (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\Connection.js:96:28),     at emitOne (events.js:77:13)]
+2015-12-19T12:22:47.485Z - debug: Overriding 'Express' logger
+2015-12-19T12:22:48.997Z - debug: Inside /nonmemberusergoal?userId=1& GET router
+2015-12-19T12:22:48.997Z - debug: Inside fetchNonMemberUserGoal
+2015-12-19T12:22:49.002Z - debug: Exiting GoalService.fetchNonMemberUserGoal
+2015-12-19T12:22:49.002Z - debug: exiting from /nonmemberusergoal GET router
+2015-12-19T12:22:49.009Z - debug: connected as id 122
+2015-12-19T12:22:49.013Z - debug: Fetched result: userId=1, displayName=Sunny, email=sunny@sunny.com, aboutMe=null, silverCoins=0, goldCoins=0
+2015-12-19T12:22:49.015Z - debug: connected as id 122
+2015-12-19T12:22:49.016Z - debug: Fetched result: goalId=1, userGoalId=1, goalName=Lose 10 KG, tagId=1, tagName=Fitness, 0=0
+2015-12-19T12:22:49.017Z - debug: nonmember goallist obj is fetched successfully from DB.
+2015-12-19T12:22:49.017Z - debug: nonmember goallist returning callback.
+2015-12-19T12:22:49.027Z - error: uncaughtException: callback1 is not a function date=Sat Dec 19 2015 17:52:49 GMT+0530 (India Standard Time), pid=6380, uid=null, gid=null, cwd=D:\Projects\FocusrootApp\code\Focusroot, execPath=C:\Program Files\nodejs\node.exe, version=v4.0.0, argv=[C:\Program Files\nodejs\node.exe, D:\Projects\FocusrootApp\code\Focusroot\bin\www], rss=44457984, heapTotal=35037696, heapUsed=23905096, loadavg=[0, 0, 0], uptime=854222.5455481, trace=[column=8, file=D:\Projects\FocusrootApp\code\Focusroot\src\service\GoalService.js, function=innerServiceCallback, line=385, method=null, native=false, column=15, file=D:\Projects\FocusrootApp\code\Focusroot\src\database\GoalRepository.js, function=Query._callback, line=535, method=_callback, native=false, column=24, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\sequences\Sequence.js, function=Query.Sequence.end, line=96, method=Sequence.end, native=false, column=8, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\sequences\Query.js, function=Query._handleFinalResultPacket, line=144, method=_handleFinalResultPacket, native=false, column=8, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\sequences\Query.js, function=Query.EofPacket, line=128, method=EofPacket, native=false, column=23, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Protocol.js, function=Protocol._parsePacket, line=274, method=_parsePacket, native=false, column=12, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Parser.js, function=Parser.write, line=77, method=write, native=false, column=16, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Protocol.js, function=Protocol.write, line=39, method=write, native=false, column=28, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\Connection.js, function=, line=96, method=null, native=false, column=13, file=events.js, function=emitOne, line=77, method=null, native=false], stack=[TypeError: callback1 is not a function,     at innerServiceCallback (D:\Projects\FocusrootApp\code\Focusroot\src\service\GoalService.js:385:8),     at Query._callback (D:\Projects\FocusrootApp\code\Focusroot\src\database\GoalRepository.js:535:15),     at Query.Sequence.end (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\sequences\Sequence.js:96:24),     at Query._handleFinalResultPacket (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\sequences\Query.js:144:8),     at Query.EofPacket (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\sequences\Query.js:128:8),     at Protocol._parsePacket (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Protocol.js:274:23),     at Parser.write (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Parser.js:77:12),     at Protocol.write (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Protocol.js:39:16),     at Socket.<anonymous> (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\Connection.js:96:28),     at emitOne (events.js:77:13)]
+2015-12-19T12:22:51.682Z - info: ::1 - - [19/Dec/2015:12:22:51 +0000] "GET /focusroot/webservice/goal/nonmemberusergoal?userId=1 HTTP/1.1" - - "-" "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36"
+
+2015-12-19T12:25:46.312Z - debug: Overriding 'Express' logger
+2015-12-19T12:27:02.733Z - debug: Overriding 'Express' logger
+2015-12-19T12:27:05.808Z - debug: Inside /nonmemberusergoal?userId=1& GET router
+2015-12-19T12:27:05.808Z - debug: Inside fetchNonMemberUserGoal
+2015-12-19T12:27:05.813Z - debug: Exiting GoalService.fetchNonMemberUserGoal
+2015-12-19T12:27:05.813Z - debug: exiting from /nonmemberusergoal GET router
+2015-12-19T12:27:05.853Z - debug: connected as id 123
+2015-12-19T12:27:05.857Z - debug: Fetched result: userId=1, displayName=Sunny, email=sunny@sunny.com, aboutMe=null, silverCoins=0, goldCoins=0
+2015-12-19T12:27:05.860Z - debug: connected as id 123
+2015-12-19T12:27:05.862Z - debug: Fetched result: goalId=1, userGoalId=1, goalName=Lose 10 KG, tagId=1, tagName=Fitness, 0=0
+2015-12-19T12:27:05.862Z - debug: nonmember goallist obj is fetched successfully from DB.
+2015-12-19T12:27:05.862Z - debug: nonmember goallist returning callback.
+2015-12-19T12:27:05.870Z - info: ::1 - - [19/Dec/2015:12:27:05 +0000] "GET /focusroot/webservice/goal/nonmemberusergoal?userId=1 HTTP/1.1" 200 16 "-" "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36"
+
+2015-12-19T12:27:38.748Z - debug: Overriding 'Express' logger
+2015-12-19T12:27:39.608Z - debug: Inside /nonmemberusergoal?userId=1& GET router
+2015-12-19T12:27:39.609Z - debug: Inside fetchNonMemberUserGoal
+2015-12-19T12:27:39.614Z - debug: Exiting GoalService.fetchNonMemberUserGoal
+2015-12-19T12:27:39.614Z - debug: exiting from /nonmemberusergoal GET router
+2015-12-19T12:27:39.625Z - debug: connected as id 124
+2015-12-19T12:27:39.631Z - debug: Fetched result: userId=1, displayName=Sunny, email=sunny@sunny.com, aboutMe=null, silverCoins=0, goldCoins=0
+2015-12-19T12:27:39.633Z - debug: connected as id 124
+2015-12-19T12:27:39.635Z - debug: Fetched result: goalId=1, userGoalId=1, goalName=Lose 10 KG, tagId=1, tagName=Fitness, 0=0
+2015-12-19T12:27:39.635Z - debug: nonmember goallist obj is fetched successfully from DB.
+2015-12-19T12:27:39.635Z - debug: nonmember goallist returning callback.
+2015-12-19T12:27:39.643Z - info: ::1 - - [19/Dec/2015:12:27:39 +0000] "GET /focusroot/webservice/goal/nonmemberusergoal?userId=1 HTTP/1.1" 200 266 "-" "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36"
+
+2015-12-19T12:27:55.730Z - debug: Overriding 'Express' logger
+2015-12-19T12:27:57.423Z - debug: Inside /nonmemberusergoal?userId=1& GET router
+2015-12-19T12:27:57.424Z - debug: Inside fetchNonMemberUserGoal
+2015-12-19T12:27:57.432Z - debug: Exiting GoalService.fetchNonMemberUserGoal
+2015-12-19T12:27:57.432Z - debug: exiting from /nonmemberusergoal GET router
+2015-12-19T12:27:57.442Z - debug: connected as id 125
+2015-12-19T12:27:57.449Z - debug: Fetched result: userId=1, displayName=Sunny, email=sunny@sunny.com, aboutMe=null, silverCoins=0, goldCoins=0
+2015-12-19T12:27:57.453Z - debug: connected as id 125
+2015-12-19T12:27:57.455Z - debug: Fetched result: goalId=1, userGoalId=1, goalName=Lose 10 KG, tagId=1, tagName=Fitness, 0=0
+2015-12-19T12:27:57.456Z - debug: nonmember goallist obj is fetched successfully from DB.
+2015-12-19T12:27:57.466Z - info: ::1 - - [19/Dec/2015:12:27:57 +0000] "GET /focusroot/webservice/goal/nonmemberusergoal?userId=1 HTTP/1.1" 200 239 "-" "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36"
+
+2015-12-19T12:30:11.122Z - debug: Overriding 'Express' logger
+2015-12-19T12:30:15.557Z - debug: Inside /nonmemberusergoal?userId=1& GET router
+2015-12-19T12:30:15.558Z - debug: Inside fetchNonMemberUserGoal
+2015-12-19T12:30:15.562Z - debug: Exiting GoalService.fetchNonMemberUserGoal
+2015-12-19T12:30:15.562Z - debug: exiting from /nonmemberusergoal GET router
+2015-12-19T12:30:15.569Z - debug: connected as id 126
+2015-12-19T12:30:15.574Z - debug: Fetched result: userId=1, displayName=Sunny, email=sunny@sunny.com, aboutMe=null, silverCoins=0, goldCoins=0
+2015-12-19T12:30:15.577Z - debug: connected as id 126
+2015-12-19T12:30:15.579Z - debug: Fetched result: goalId=1, userGoalId=1, goalName=Lose 10 KG, tagId=1, tagName=Fitness, 0=0, goalId=2, userGoalId=2, goalName=Run 1KM each day, tagId=1, tagName=Fitness, 0=0, goalId=12, userGoalId=13, goalName=Run 1KM each day, tagId=1, tagName=Fitness, 0=0, goalId=3, userGoalId=3, goalName=Finish Harry Potter last book, tagId=2, tagName=Reading, 0=0
+2015-12-19T12:30:15.579Z - debug: nonmember goallist obj is fetched successfully from DB.
+2015-12-19T12:30:15.591Z - error: uncaughtException: Cannot read property '0' of undefined date=Sat Dec 19 2015 18:00:15 GMT+0530 (India Standard Time), pid=11300, uid=null, gid=null, cwd=D:\Projects\FocusrootApp\code\Focusroot, execPath=C:\Program Files\nodejs\node.exe, version=v4.0.0, argv=[C:\Program Files\nodejs\node.exe, D:\Projects\FocusrootApp\code\Focusroot\bin\www], rss=44851200, heapTotal=35037696, heapUsed=23368048, loadavg=[0, 0, 0], uptime=854669.109377, trace=[column=47, file=D:\Projects\FocusrootApp\code\Focusroot\src\service\GoalService.js, function=innerServiceCallback, line=383, method=null, native=false, column=15, file=D:\Projects\FocusrootApp\code\Focusroot\src\database\GoalRepository.js, function=Query._callback, line=535, method=_callback, native=false, column=24, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\sequences\Sequence.js, function=Query.Sequence.end, line=96, method=Sequence.end, native=false, column=8, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\sequences\Query.js, function=Query._handleFinalResultPacket, line=144, method=_handleFinalResultPacket, native=false, column=8, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\sequences\Query.js, function=Query.EofPacket, line=128, method=EofPacket, native=false, column=23, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Protocol.js, function=Protocol._parsePacket, line=274, method=_parsePacket, native=false, column=12, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Parser.js, function=Parser.write, line=77, method=write, native=false, column=16, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Protocol.js, function=Protocol.write, line=39, method=write, native=false, column=28, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\Connection.js, function=, line=96, method=null, native=false, column=13, file=events.js, function=emitOne, line=77, method=null, native=false], stack=[TypeError: Cannot read property '0' of undefined,     at innerServiceCallback (D:\Projects\FocusrootApp\code\Focusroot\src\service\GoalService.js:383:47),     at Query._callback (D:\Projects\FocusrootApp\code\Focusroot\src\database\GoalRepository.js:535:15),     at Query.Sequence.end (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\sequences\Sequence.js:96:24),     at Query._handleFinalResultPacket (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\sequences\Query.js:144:8),     at Query.EofPacket (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\sequences\Query.js:128:8),     at Protocol._parsePacket (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Protocol.js:274:23),     at Parser.write (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Parser.js:77:12),     at Protocol.write (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Protocol.js:39:16),     at Socket.<anonymous> (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\Connection.js:96:28),     at emitOne (events.js:77:13)]
+2015-12-19T12:30:16.947Z - info: ::1 - - [19/Dec/2015:12:30:16 +0000] "GET /focusroot/webservice/goal/nonmemberusergoal?userId=1 HTTP/1.1" - - "-" "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36"
+
+2015-12-19T12:30:35.199Z - debug: Overriding 'Express' logger
+2015-12-19T12:30:36.133Z - debug: Inside /nonmemberusergoal?userId=1& GET router
+2015-12-19T12:30:36.134Z - debug: Inside fetchNonMemberUserGoal
+2015-12-19T12:30:36.139Z - debug: Exiting GoalService.fetchNonMemberUserGoal
+2015-12-19T12:30:36.139Z - debug: exiting from /nonmemberusergoal GET router
+2015-12-19T12:30:36.175Z - debug: connected as id 127
+2015-12-19T12:30:36.179Z - debug: Fetched result: userId=1, displayName=Sunny, email=sunny@sunny.com, aboutMe=null, silverCoins=0, goldCoins=0
+2015-12-19T12:30:36.183Z - debug: connected as id 127
+2015-12-19T12:30:36.184Z - debug: Fetched result: goalId=1, userGoalId=1, goalName=Lose 10 KG, tagId=1, tagName=Fitness, 0=0, goalId=2, userGoalId=2, goalName=Run 1KM each day, tagId=1, tagName=Fitness, 0=0, goalId=12, userGoalId=13, goalName=Run 1KM each day, tagId=1, tagName=Fitness, 0=0, goalId=3, userGoalId=3, goalName=Finish Harry Potter last book, tagId=2, tagName=Reading, 0=0
+2015-12-19T12:30:36.185Z - debug: nonmember goallist obj is fetched successfully from DB.
+2015-12-19T12:30:36.193Z - info: ::1 - - [19/Dec/2015:12:30:36 +0000] "GET /focusroot/webservice/goal/nonmemberusergoal?userId=1 HTTP/1.1" 200 685 "-" "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36"
+
+2015-12-19T12:31:49.095Z - debug: Overriding 'Express' logger
+2015-12-19T12:31:54.416Z - debug: Overriding 'Express' logger
+2015-12-19T12:32:10.722Z - debug: Overriding 'Express' logger
+2015-12-19T12:32:15.521Z - debug: Inside /nonmemberusergoal?userId=1& GET router
+2015-12-19T12:32:15.521Z - debug: Inside fetchNonMemberUserGoal
+2015-12-19T12:32:15.528Z - debug: Exiting GoalService.fetchNonMemberUserGoal
+2015-12-19T12:32:15.529Z - debug: exiting from /nonmemberusergoal GET router
+2015-12-19T12:32:15.556Z - debug: connected as id 128
+2015-12-19T12:32:15.560Z - debug: Fetched result: userId=1, displayName=Sunny, email=sunny@sunny.com, aboutMe=null, silverCoins=0, goldCoins=0
+2015-12-19T12:32:15.562Z - debug: connected as id 128
+2015-12-19T12:32:15.563Z - debug: Fetched result: goalId=1, userGoalId=1, goalName=Lose 10 KG, tagId=1, tagName=Fitness, 0=0, goalId=2, userGoalId=2, goalName=Run 1KM each day, tagId=1, tagName=Fitness, 0=0, goalId=12, userGoalId=13, goalName=Run 1KM each day, tagId=1, tagName=Fitness, 0=0, goalId=3, userGoalId=3, goalName=Finish Harry Potter last book, tagId=2, tagName=Reading, 0=0
+2015-12-19T12:32:15.564Z - debug: nonmember goallist obj is fetched successfully from DB.
+2015-12-19T12:32:15.571Z - info: ::1 - - [19/Dec/2015:12:32:15 +0000] "GET /focusroot/webservice/goal/nonmemberusergoal?userId=1 HTTP/1.1" 200 581 "-" "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36"
+
