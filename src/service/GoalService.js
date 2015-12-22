@@ -158,7 +158,7 @@ function calculateGoalProgress(goal, goalLog){
 GoalService.fetchMyUserGoal = function(userGoalId, callback) {
 	log.debug('Inside fetchMyUserGoal service');
 
-	var serviceCallback = function(error, success, goal) {
+	var outerServiceCallback = function(error, success, goal) {
 		if (error) {
 			log.error('Error during DB access');
 		  	callback(error, {"success":false, "description": "Could not fetch Goal due to unexpected error. Please try again."}); 
@@ -166,14 +166,24 @@ GoalService.fetchMyUserGoal = function(userGoalId, callback) {
 			if(success && goal && typeof goal!=='undefined'){
 				goal.goalStartDate=goal.goalStartDate?dateFormat(goal.goalStartDate, nconf.get('myDateFormat')):null;
 				goal.goalEndDate=goal.goalEndDate?dateFormat(goal.goalEndDate, nconf.get('myDateFormat')):null;
+				goal.isGoalAchieved=goal.isGoalAchieved[0];
+				var innerServiceCallback = function(error, goalMemberList) {
+					if (error) {
+						log.error('Error during DB access');
+					  	callback(error, {"success":false, "description": "Could not fetch list due to unexpected error. Please try again."}); 
+					} else {
+						callback(null, {"success":true, "goal":goal, "goalMemberList":goalMemberList});
+				    }
+				};
+
+				GoalRepository.fetchMyGoalMemberList(goal.goalId, innerServiceCallback);
 				
-				callback(null, {"success":true, "goal":goal});
 			}else if(!success)
 	       		callback(null, {"success":false, "description":"userGoalId doesn\'t exist:"+userGoalId});
 	    }
 	};
 
-	GoalRepository.fetchGoalWithUserGoalId(userGoalId, serviceCallback);
+	GoalRepository.fetchGoalWithUserGoalId(userGoalId, outerServiceCallback);
 
 	log.debug('Exiting GoalService.fetchMyUserGoal');
 };
@@ -231,23 +241,7 @@ GoalService.fetchGoalList = function(tagId, goalTypeId, userId, callback) {
 	log.debug('Exiting GoalService.fetchGoalList');
 };
 
-GoalService.fetchMyGoalMemberList = function(goalId, callback) {
-	log.debug('Inside fetchMyGoalMemberList');
 
-	var serviceCallback = function(error, result) {
-		if (error) {
-			log.error('Error during DB access');
-		  	callback(error, {"success":false, "description": "Could not fetch list due to unexpected error. Please try again."}); 
-		} else {
-
-	       callback(null, {"success":true, "goalMemberList":result});
-	    }
-	};
-
-	GoalRepository.fetchMyGoalMemberList(goalId, serviceCallback);
-
-	log.debug('Exiting GoalService.fetchMyGoalMemberList');
-};
 
 
 GoalService.createUserGoal = function(userGoalDetails, callback) {

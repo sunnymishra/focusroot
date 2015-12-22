@@ -14,6 +14,7 @@ CREATE TABLE `f_goal` (
   `goalTargetValue` int(11) DEFAULT NULL,
   `goalUnit` varchar(12) DEFAULT NULL,
   `isPrivateGoal` bit(1) DEFAULT b'0',
+  `goalMembersCount` int(10) NOT NULL DEFAULT 1,
   `createdDate` date DEFAULT NULL,
   `createdBy` bigint(20) DEFAULT NULL,
   `modifiedDate` date DEFAULT NULL,
@@ -163,7 +164,7 @@ CREATE TABLE `f_user_goal` (
   `createdBy` int(11) DEFAULT NULL,
   `modifiedDate` date DEFAULT NULL,
   `modifiedBy` date DEFAULT NULL,
-  `active` bit(1) NOT NULL,
+  `statusType` int(5) NOT NULL,
   PRIMARY KEY (`userGoalId`),
   KEY `userId` (`userId`),
   KEY `goalId` (`goalId`),
@@ -178,4 +179,29 @@ CREATE TABLE `f_user_goal` (
 INSERT INTO `f_user_goal` VALUES ('1', '1', '1', '90', '2015-10-18', '2015-11-18', null, null, '', '', '2015-11-10', null, '2015-11-11', null, '');
 INSERT INTO `f_user_goal` VALUES ('2', '1', '2', null, '2015-10-20', '2015-12-20', null, null, '', '', '2015-11-10', null, null, null, '');
 INSERT INTO `f_user_goal` VALUES ('3', '1', '3', null, '2015-10-11', '2015-12-16', null, null, '', '', '2015-11-10', null, null, null, '');
+
+-- ----------------------------
+-- Table structure for `f_friend_request_type`
+-- ----------------------------
+CREATE TABLE `f_friend_request_type` (
+  `friendRequestTypeId` int(5) NOT NULL,
+  `friendRequestTypeName` varchar(100) DEFAULT NULL,
+  `active` bit(1) NOT NULL,
+  PRIMARY KEY (`friendRequestTypeId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of f_friend_request_type
+-- ----------------------------
+INSERT INTO `f_friend_request_type` VALUES (1, 'SHARED_PENDING', 1);
+INSERT INTO `f_friend_request_type` VALUES (2, 'PENDING	', 1);
+INSERT INTO `f_friend_request_type` VALUES (3, 'CONFIRMED', 1);
+INSERT INTO `f_friend_request_type` VALUES (4, 'REVOKED', 1);
+INSERT INTO `f_friend_request_type` VALUES (5, 'REJECTED', 1);
+
+
+
+
+
+
 

@@ -116,3 +116,144 @@
 2015-12-19T12:32:15.564Z - debug: nonmember goallist obj is fetched successfully from DB.
 2015-12-19T12:32:15.571Z - info: ::1 - - [19/Dec/2015:12:32:15 +0000] "GET /focusroot/webservice/goal/nonmemberusergoal?userId=1 HTTP/1.1" 200 581 "-" "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36"
 
+2015-12-21T17:45:59.986Z - debug: Overriding 'Express' logger
+2015-12-21T17:46:19.078Z - debug: Inside /mygoal GET router
+2015-12-21T17:46:19.078Z - debug: userGoalId : --->1
+2015-12-21T17:46:19.078Z - debug: Inside fetchMyUserGoal service
+2015-12-21T17:46:19.082Z - debug: Exiting GoalService.fetchMyUserGoal
+2015-12-21T17:46:19.082Z - debug: exiting from /mygoal GET router
+2015-12-21T17:46:19.156Z - debug: connected as id 143
+2015-12-21T17:46:19.180Z - error: Error while performing Query. Error: ER_BAD_FIELD_ERROR: Unknown column 'ug.active' in 'where clause'
+2015-12-21T17:46:19.184Z - error: Error during DB access
+2015-12-21T17:46:19.204Z - info: ::1 - - [21/Dec/2015:17:46:19 +0000] "GET /focusroot/webservice/goal/mygoal?userGoalId=1 HTTP/1.1" 409 71 "-" "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36"
+
+2015-12-21T17:49:15.657Z - debug: Overriding 'Express' logger
+2015-12-21T17:57:30.912Z - debug: Overriding 'Express' logger
+2015-12-21T17:57:42.436Z - debug: Overriding 'Express' logger
+2015-12-21T17:57:50.340Z - debug: Overriding 'Express' logger
+2015-12-21T17:57:57.387Z - debug: Inside /mygoal GET router
+2015-12-21T17:57:57.387Z - debug: userGoalId : --->1
+2015-12-21T17:57:57.391Z - debug: Inside fetchMyUserGoal service
+2015-12-21T17:57:57.395Z - debug: Exiting GoalService.fetchMyUserGoal
+2015-12-21T17:57:57.395Z - debug: exiting from /mygoal GET router
+2015-12-21T17:57:57.415Z - debug: connected as id 148
+2015-12-21T17:57:57.419Z - error: Error while performing Query. Error: ER_BAD_FIELD_ERROR: Unknown column 'ug.active' in 'where clause'
+2015-12-21T17:57:57.419Z - error: Error during DB access
+2015-12-21T17:57:57.427Z - info: ::1 - - [21/Dec/2015:17:57:57 +0000] "GET /focusroot/webservice/goal/mygoal?userGoalId=1 HTTP/1.1" 409 71 "-" "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36"
+
+2015-12-21T17:58:39.315Z - debug: Overriding 'Express' logger
+2015-12-21T17:58:56.185Z - debug: Overriding 'Express' logger
+2015-12-21T18:00:18.736Z - debug: Overriding 'Express' logger
+2015-12-21T18:00:31.242Z - debug: Overriding 'Express' logger
+2015-12-21T18:00:34.620Z - debug: Inside /mygoal GET router
+2015-12-21T18:00:34.620Z - debug: userGoalId : --->1
+2015-12-21T18:00:34.624Z - debug: Inside fetchMyUserGoal service
+2015-12-21T18:00:34.628Z - debug: Exiting GoalService.fetchMyUserGoal
+2015-12-21T18:00:34.628Z - debug: exiting from /mygoal GET router
+2015-12-21T18:00:34.663Z - debug: connected as id 149
+2015-12-21T18:00:34.679Z - error: uncaughtException: goalConnectionStatus is not defined date=Mon Dec 21 2015 23:30:34 GMT+0530 (India Standard Time), pid=7780, uid=null, gid=null, cwd=D:\Projects\FocusrootApp\code\Focusroot, execPath=C:\Program Files\nodejs\node.exe, version=v4.0.0, argv=[C:\Program Files\nodejs\node.exe, D:\Projects\FocusrootApp\code\Focusroot\bin\www], rss=44331008, heapTotal=34017792, heapUsed=23965720, loadavg=[0, 0, 0], uptime=1047288.2041168, trace=[column=41, file=D:\Projects\FocusrootApp\code\Focusroot\src\database\GoalRepository.js, function=null, line=237, method=null, native=false, column=7, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\Pool.js, function=Handshake.onConnect, line=59, method=onConnect, native=false, column=24, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\sequences\Sequence.js, function=Handshake.Sequence.end, line=96, method=Sequence.end, native=false, column=8, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\sequences\Sequence.js, function=Handshake.Sequence.OkPacket, line=105, method=Sequence.OkPacket, native=false, column=23, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Protocol.js, function=Protocol._parsePacket, line=274, method=_parsePacket, native=false, column=12, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Parser.js, function=Parser.write, line=77, method=write, native=false, column=16, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Protocol.js, function=Protocol.write, line=39, method=write, native=false, column=28, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\Connection.js, function=, line=96, method=null, native=false, column=13, file=events.js, function=emitOne, line=77, method=null, native=false, column=7, file=events.js, function=Socket.emit, line=169, method=emit, native=false], stack=[ReferenceError: goalConnectionStatus is not defined,     at D:\Projects\FocusrootApp\code\Focusroot\src\database\GoalRepository.js:237:41,     at Handshake.onConnect (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\Pool.js:59:7),     at Handshake.Sequence.end (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\sequences\Sequence.js:96:24),     at Handshake.Sequence.OkPacket (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\sequences\Sequence.js:105:8),     at Protocol._parsePacket (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Protocol.js:274:23),     at Parser.write (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Parser.js:77:12),     at Protocol.write (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Protocol.js:39:16),     at Socket.<anonymous> (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\Connection.js:96:28),     at emitOne (events.js:77:13),     at Socket.emit (events.js:169:7)]
+2015-12-21T18:00:53.572Z - debug: Overriding 'Express' logger
+2015-12-21T18:00:56.050Z - debug: Inside /mygoal GET router
+2015-12-21T18:00:56.050Z - debug: userGoalId : --->1
+2015-12-21T18:00:56.050Z - debug: Inside fetchMyUserGoal service
+2015-12-21T18:00:56.054Z - debug: Exiting GoalService.fetchMyUserGoal
+2015-12-21T18:00:56.054Z - debug: exiting from /mygoal GET router
+2015-12-21T18:00:56.098Z - debug: connected as id 150
+2015-12-21T18:00:56.115Z - debug: Fetched result: goalId=1, tagId=1, goalTypeId=1, goalName=Lose 10 KG, goalDescription=Need to lose 10 KG weight in 1 month period, goalTargetValue=10, goalUnit=KG, userGoalId=1, goalProgressPercent=90, goalStartDate=Sun Oct 18 2015 00:00:00 GMT+0530 (India Standard Time), goalEndDate=Wed Nov 18 2015 00:00:00 GMT+0530 (India Standard Time), 0=0
+2015-12-21T18:00:56.142Z - error: uncaughtException: goalId is not defined date=Mon Dec 21 2015 23:30:56 GMT+0530 (India Standard Time), pid=2776, uid=null, gid=null, cwd=D:\Projects\FocusrootApp\code\Focusroot, execPath=C:\Program Files\nodejs\node.exe, version=v4.0.0, argv=[C:\Program Files\nodejs\node.exe, D:\Projects\FocusrootApp\code\Focusroot\bin\www], rss=44494848, heapTotal=35037696, heapUsed=23866880, loadavg=[0, 0, 0], uptime=1047309.6677513, trace=[column=42, file=D:\Projects\FocusrootApp\code\Focusroot\src\service\GoalService.js, function=outerServiceCallback, line=179, method=null, native=false, column=15, file=D:\Projects\FocusrootApp\code\Focusroot\src\database\GoalRepository.js, function=Query._callback, line=242, method=_callback, native=false, column=24, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\sequences\Sequence.js, function=Query.Sequence.end, line=96, method=Sequence.end, native=false, column=8, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\sequences\Query.js, function=Query._handleFinalResultPacket, line=144, method=_handleFinalResultPacket, native=false, column=8, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\sequences\Query.js, function=Query.EofPacket, line=128, method=EofPacket, native=false, column=23, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Protocol.js, function=Protocol._parsePacket, line=274, method=_parsePacket, native=false, column=12, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Parser.js, function=Parser.write, line=77, method=write, native=false, column=16, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Protocol.js, function=Protocol.write, line=39, method=write, native=false, column=28, file=D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\Connection.js, function=, line=96, method=null, native=false, column=13, file=events.js, function=emitOne, line=77, method=null, native=false], stack=[ReferenceError: goalId is not defined,     at outerServiceCallback (D:\Projects\FocusrootApp\code\Focusroot\src\service\GoalService.js:179:42),     at Query._callback (D:\Projects\FocusrootApp\code\Focusroot\src\database\GoalRepository.js:242:15),     at Query.Sequence.end (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\sequences\Sequence.js:96:24),     at Query._handleFinalResultPacket (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\sequences\Query.js:144:8),     at Query.EofPacket (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\sequences\Query.js:128:8),     at Protocol._parsePacket (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Protocol.js:274:23),     at Parser.write (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Parser.js:77:12),     at Protocol.write (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\protocol\Protocol.js:39:16),     at Socket.<anonymous> (D:\Projects\FocusrootApp\code\Focusroot\node_modules\mysql\lib\Connection.js:96:28),     at emitOne (events.js:77:13)]
+2015-12-21T18:01:54.439Z - debug: Overriding 'Express' logger
+2015-12-21T18:02:00.833Z - debug: Inside /mygoal GET router
+2015-12-21T18:02:00.833Z - debug: userGoalId : --->1
+2015-12-21T18:02:00.833Z - debug: Inside fetchMyUserGoal service
+2015-12-21T18:02:00.837Z - debug: Exiting GoalService.fetchMyUserGoal
+2015-12-21T18:02:00.837Z - debug: exiting from /mygoal GET router
+2015-12-21T18:02:00.845Z - debug: connected as id 151
+2015-12-21T18:02:00.853Z - debug: Fetched result: goalId=1, tagId=1, goalTypeId=1, goalName=Lose 10 KG, goalDescription=Need to lose 10 KG weight in 1 month period, goalTargetValue=10, goalUnit=KG, userGoalId=1, goalProgressPercent=90, goalStartDate=Sun Oct 18 2015 00:00:00 GMT+0530 (India Standard Time), goalEndDate=Wed Nov 18 2015 00:00:00 GMT+0530 (India Standard Time), 0=0
+2015-12-21T18:02:00.857Z - debug: connected as id 151
+2015-12-21T18:02:00.861Z - error: Error while performing Query. Error: ER_BAD_FIELD_ERROR: Unknown column 'ug.active' in 'where clause'
+2015-12-21T18:02:00.861Z - error: Error during DB access
+2015-12-21T18:02:00.869Z - info: ::1 - - [21/Dec/2015:18:02:00 +0000] "GET /focusroot/webservice/goal/mygoal?userGoalId=1 HTTP/1.1" 409 71 "-" "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36"
+
+2015-12-21T18:03:23.441Z - debug: Overriding 'Express' logger
+2015-12-21T18:04:08.659Z - debug: Overriding 'Express' logger
+2015-12-21T18:04:13.112Z - debug: Overriding 'Express' logger
+2015-12-21T18:04:37.150Z - debug: Overriding 'Express' logger
+2015-12-21T18:04:59.140Z - debug: Overriding 'Express' logger
+2015-12-21T18:05:01.905Z - debug: Inside /mygoal GET router
+2015-12-21T18:05:01.905Z - debug: userGoalId : --->1
+2015-12-21T18:05:01.909Z - debug: Inside fetchMyUserGoal service
+2015-12-21T18:05:01.913Z - debug: Exiting GoalService.fetchMyUserGoal
+2015-12-21T18:05:01.913Z - debug: exiting from /mygoal GET router
+2015-12-21T18:05:01.921Z - debug: connected as id 152
+2015-12-21T18:05:01.929Z - debug: Fetched result: goalId=1, tagId=1, goalTypeId=1, goalName=Lose 10 KG, goalDescription=Need to lose 10 KG weight in 1 month period, goalTargetValue=10, goalUnit=KG, userGoalId=1, goalProgressPercent=90, goalStartDate=Sun Oct 18 2015 00:00:00 GMT+0530 (India Standard Time), goalEndDate=Wed Nov 18 2015 00:00:00 GMT+0530 (India Standard Time), 0=0
+2015-12-21T18:05:01.933Z - debug: connected as id 152
+2015-12-21T18:05:01.979Z - debug: Fetched result:
+2015-12-21T18:05:01.999Z - info: ::1 - - [21/Dec/2015:18:05:01 +0000] "GET /focusroot/webservice/goal/mygoal?userGoalId=1 HTTP/1.1" 200 348 "-" "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36"
+
+2015-12-21T18:05:49.577Z - debug: Overriding 'Express' logger
+2015-12-21T18:05:51.179Z - debug: Inside /mygoal GET router
+2015-12-21T18:05:51.179Z - debug: userGoalId : --->1
+2015-12-21T18:05:51.179Z - debug: Inside fetchMyUserGoal service
+2015-12-21T18:05:51.187Z - debug: Exiting GoalService.fetchMyUserGoal
+2015-12-21T18:05:51.187Z - debug: exiting from /mygoal GET router
+2015-12-21T18:05:51.191Z - debug: connected as id 153
+2015-12-21T18:05:51.203Z - debug: Fetched result: goalId=1, tagId=1, goalTypeId=1, goalName=Lose 10 KG, goalDescription=Need to lose 10 KG weight in 1 month period, goalTargetValue=10, goalUnit=KG, userGoalId=1, goalProgressPercent=90, goalStartDate=Sun Oct 18 2015 00:00:00 GMT+0530 (India Standard Time), goalEndDate=Wed Nov 18 2015 00:00:00 GMT+0530 (India Standard Time), 0=0
+2015-12-21T18:05:51.207Z - debug: connected as id 153
+2015-12-21T18:05:51.207Z - debug: Fetched result:
+2015-12-21T18:05:51.215Z - info: ::1 - - [21/Dec/2015:18:05:51 +0000] "GET /focusroot/webservice/goal/mygoal?userGoalId=1 HTTP/1.1" 200 321 "-" "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36"
+
+2015-12-21T18:05:56.179Z - debug: Inside /mygoal GET router
+2015-12-21T18:05:56.179Z - debug: userGoalId : --->1
+2015-12-21T18:05:56.179Z - debug: Inside fetchMyUserGoal service
+2015-12-21T18:05:56.179Z - debug: Exiting GoalService.fetchMyUserGoal
+2015-12-21T18:05:56.179Z - debug: exiting from /mygoal GET router
+2015-12-21T18:05:56.179Z - debug: connected as id 153
+2015-12-21T18:05:56.183Z - debug: Fetched result: goalId=1, tagId=1, goalTypeId=1, goalName=Lose 10 KG, goalDescription=Need to lose 10 KG weight in 1 month period, goalTargetValue=10, goalUnit=KG, userGoalId=1, goalProgressPercent=90, goalStartDate=Sun Oct 18 2015 00:00:00 GMT+0530 (India Standard Time), goalEndDate=Wed Nov 18 2015 00:00:00 GMT+0530 (India Standard Time), 0=0
+2015-12-21T18:05:56.183Z - debug: connected as id 153
+2015-12-21T18:05:56.187Z - debug: Fetched result:
+2015-12-21T18:05:56.187Z - info: ::1 - - [21/Dec/2015:18:05:56 +0000] "GET /focusroot/webservice/goal/mygoal?userGoalId=1 HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36"
+
+2015-12-21T18:06:54.379Z - debug: Inside /mygoal GET router
+2015-12-21T18:06:54.383Z - debug: userGoalId : --->1
+2015-12-21T18:06:54.383Z - debug: Inside fetchMyUserGoal service
+2015-12-21T18:06:54.383Z - debug: Exiting GoalService.fetchMyUserGoal
+2015-12-21T18:06:54.383Z - debug: exiting from /mygoal GET router
+2015-12-21T18:06:54.383Z - debug: connected as id 153
+2015-12-21T18:06:54.383Z - debug: Fetched result: goalId=1, tagId=1, goalTypeId=1, goalName=Lose 10 KG, goalDescription=Need to lose 10 KG weight in 1 month period, goalTargetValue=10, goalUnit=KG, userGoalId=1, goalProgressPercent=90, goalStartDate=Sun Oct 18 2015 00:00:00 GMT+0530 (India Standard Time), goalEndDate=Wed Nov 18 2015 00:00:00 GMT+0530 (India Standard Time), 0=0
+2015-12-21T18:06:54.387Z - debug: connected as id 153
+2015-12-21T18:06:54.387Z - debug: Fetched result: userId=1, displayName=Sunny, statusType=3, userId=12, displayName=Sunny1, statusType=3
+2015-12-21T18:06:54.387Z - info: ::1 - - [21/Dec/2015:18:06:54 +0000] "GET /focusroot/webservice/goal/mygoal?userGoalId=1 HTTP/1.1" 200 422 "-" "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36"
+
+2015-12-21T18:07:57.273Z - debug: Inside /mygoal GET router
+2015-12-21T18:07:57.273Z - debug: userGoalId : --->1
+2015-12-21T18:07:57.273Z - debug: Inside fetchMyUserGoal service
+2015-12-21T18:07:57.309Z - debug: Exiting GoalService.fetchMyUserGoal
+2015-12-21T18:07:57.309Z - debug: exiting from /mygoal GET router
+2015-12-21T18:07:57.309Z - debug: connected as id 153
+2015-12-21T18:07:57.309Z - debug: Fetched result: goalId=1, tagId=1, goalTypeId=1, goalName=Lose 10 KG, goalDescription=Need to lose 10 KG weight in 1 month period, goalTargetValue=10, goalUnit=KG, userGoalId=1, goalProgressPercent=90, goalStartDate=Sun Oct 18 2015 00:00:00 GMT+0530 (India Standard Time), goalEndDate=Wed Nov 18 2015 00:00:00 GMT+0530 (India Standard Time), 0=0
+2015-12-21T18:07:57.309Z - debug: connected as id 153
+2015-12-21T18:07:57.309Z - debug: Fetched result: userId=1, displayName=Sunny, statusType=3, userId=12, displayName=Sunny1, statusType=3
+2015-12-21T18:07:57.313Z - info: ::1 - - [21/Dec/2015:18:07:57 +0000] "GET /focusroot/webservice/goal/mygoal?userGoalId=1 HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36"
+
+2015-12-21T18:07:59.139Z - debug: Inside /mygoal GET router
+2015-12-21T18:07:59.139Z - debug: userGoalId : --->1
+2015-12-21T18:07:59.139Z - debug: Inside fetchMyUserGoal service
+2015-12-21T18:07:59.139Z - debug: Exiting GoalService.fetchMyUserGoal
+2015-12-21T18:07:59.139Z - debug: exiting from /mygoal GET router
+2015-12-21T18:07:59.139Z - debug: connected as id 153
+2015-12-21T18:07:59.139Z - debug: Fetched result: goalId=1, tagId=1, goalTypeId=1, goalName=Lose 10 KG, goalDescription=Need to lose 10 KG weight in 1 month period, goalTargetValue=10, goalUnit=KG, userGoalId=1, goalProgressPercent=90, goalStartDate=Sun Oct 18 2015 00:00:00 GMT+0530 (India Standard Time), goalEndDate=Wed Nov 18 2015 00:00:00 GMT+0530 (India Standard Time), 0=0
+2015-12-21T18:07:59.143Z - debug: connected as id 153
+2015-12-21T18:07:59.147Z - debug: Fetched result: userId=1, displayName=Sunny, statusType=3, userId=12, displayName=Sunny1, statusType=3
+2015-12-21T18:07:59.147Z - info: ::1 - - [21/Dec/2015:18:07:59 +0000] "GET /focusroot/webservice/goal/mygoal?userGoalId=1 HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36"
+
+2015-12-21T18:08:02.277Z - debug: Inside /mygoal GET router
+2015-12-21T18:08:02.281Z - debug: userGoalId : --->1
+2015-12-21T18:08:02.281Z - debug: Inside fetchMyUserGoal service
+2015-12-21T18:08:02.281Z - debug: Exiting GoalService.fetchMyUserGoal
+2015-12-21T18:08:02.281Z - debug: exiting from /mygoal GET router
+2015-12-21T18:08:02.281Z - debug: connected as id 153
+2015-12-21T18:08:02.281Z - debug: Fetched result: goalId=1, tagId=1, goalTypeId=1, goalName=Lose 10 KG, goalDescription=Need to lose 10 KG weight in 1 month period, goalTargetValue=10, goalUnit=KG, userGoalId=1, goalProgressPercent=90, goalStartDate=Sun Oct 18 2015 00:00:00 GMT+0530 (India Standard Time), goalEndDate=Wed Nov 18 2015 00:00:00 GMT+0530 (India Standard Time), 0=0
+2015-12-21T18:08:02.281Z - debug: connected as id 153
+2015-12-21T18:08:02.285Z - debug: Fetched result: userId=1, displayName=Sunny, statusType=3, userId=12, displayName=Sunny1, statusType=3
+2015-12-21T18:08:02.285Z - info: ::1 - - [21/Dec/2015:18:08:02 +0000] "GET /focusroot/webservice/goal/mygoal?userGoalId=1 HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36"
+

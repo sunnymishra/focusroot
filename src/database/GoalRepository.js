@@ -232,8 +232,9 @@ GoalRepository.fetchGoalWithUserGoalId = function(userGoalId, callback) {
 	    	"SELECT g.goalId, g.tagId, g.goalTypeId, g.goalName, g.goalDescription, g.goalTargetValue, g.goalUnit, "+
 			"ug.userGoalId, ug.goalProgressPercent, ug.goalStartDate, ug.goalEndDate, ug.isGoalAchieved "+
 			"from F_GOAL g JOIN F_USER_GOAL ug ON g.goalId=ug.goalId "+
-	    	"where ug.userGoalId=? and ug.active = ? and g.active = ? ";
-	    connection.query(sql, [userGoalId, 1, 1], function(err, rows){
+	    	"where ug.userGoalId=? and g.active = ? ";
+
+	    connection.query(sql, [userGoalId, 1], function(err, rows){
 	        connection.release();
 	        if(!err) {
 	        	if(typeof rows !== 'undefined' && rows.length > 0){
@@ -381,11 +382,13 @@ GoalRepository.fetchMyGoalMemberList = function(goalId, callback) {
 	    log.debug('connected as id ' + connection.threadId);
 	    
 	    var sql = 
-	    	"select u.userId, u.displayName "+
+	    	"select u.userId, u.displayName, ug.statusType "+
 	    	"from f_user_goal ug join f_user u on ug.userId=u.userId "+
-			"where goalId=? and ug.active=? ";
-
-	    connection.query(sql, [goalId, 1], function(err, rows, fields){
+			"where goalId=? and ug.statusType IN (?) "+
+			"order by ug.statusType ";
+		
+		var goalConnectionStatus = [1, 2, 3];
+	    connection.query(sql, [goalId, goalConnectionStatus], function(err, rows, fields){
 	        connection.release();
 	        if(!err) {
 	        	log.debug('Fetched result:', rows);
@@ -522,12 +525,14 @@ GoalRepository.fetchNonMemberGoalList = function(userId, callback) {
 	    log.debug('connected as id ' + connection.threadId);
 	    
 	    var sql = 
-	    	"select ug.goalId, ug.userGoalId, goalName, g.tagId, tagName, ug.isGoalAchieved "+
+	    	"select ug.goalId, ug.userGoalId, goalName, g.tagId, tagName, ug.isGoalAchieved, ug.statusType "+
 			"from f_goal g "+
 			"Join f_tag t on g.tagId=t.tagId "+
 			"Join f_user_Goal ug on ug.goalId=g.goalId "+
-			"where ug.userId=? and ug.active=? and g.active=? ";
-	    connection.query(sql, [userId, 1, 1], function(err, rows){
+			"where ug.userId=? and ug.statusType IN (?) and g.active=? "+
+			"order ug.statusType ";
+		var goalConnectionStatus = [1, 2, 3];
+	    connection.query(sql, [userId, goalConnectionStatus, 1], function(err, rows){
 	        connection.release();
 	        if(!err) {
 	        	if(typeof rows !== 'undefined' && rows.length > 0){

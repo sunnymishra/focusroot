@@ -85,22 +85,6 @@ router.get('/goaltracker', function(req, res) {
   log.debug('exiting from /goaltracker GET router');
 });
 
-router.get('/mygoalmembers', function(req, res) {
-  var goalId = req.query.goalId;
-  log.debug('Inside /mygoalmembers?goalId=%s GET router.', goalId);
-  
-  var routerCallback = function(error, result) {
-    if (error) {
-          res.status(409).send(error);
-      } else {
-          res.json(result);
-        }
-    };
-    
-  GoalService.fetchMyGoalMemberList(goalId, routerCallback);
-  log.debug('exiting from /mygoalmembers GET router');
-});
-
 
 router.get('/memberusergoal', function(req, res) {
   var userId=req.query.userId;
