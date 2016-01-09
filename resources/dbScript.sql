@@ -9,18 +9,17 @@ DROP TABLE IF EXISTS `f_friend_request_type`;
 CREATE TABLE `f_friend_request_type` (
   `friendRequestTypeId` int(5) NOT NULL,
   `friendRequestTypeName` varchar(100) DEFAULT NULL,
-  `active` bit(1) NOT NULL,
   PRIMARY KEY (`friendRequestTypeId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of f_friend_request_type
 -- ----------------------------
-INSERT INTO `f_friend_request_type` VALUES ('1', 'PENDING_ACCEPTANCE', '');
-INSERT INTO `f_friend_request_type` VALUES ('2', 'PENDING_APPROVAL', '');
-INSERT INTO `f_friend_request_type` VALUES ('3', 'CONFIRMED', '');
-INSERT INTO `f_friend_request_type` VALUES ('4', 'REVOKED', '');
-INSERT INTO `f_friend_request_type` VALUES ('5', 'REJECTED', '');
+INSERT INTO `f_friend_request_type` VALUES ('1', 'PENDING_ACCEPTANCE');
+INSERT INTO `f_friend_request_type` VALUES ('2', 'PENDING_APPROVAL');
+INSERT INTO `f_friend_request_type` VALUES ('3', 'CONFIRMED');
+INSERT INTO `f_friend_request_type` VALUES ('4', 'REVOKED');
+INSERT INTO `f_friend_request_type` VALUES ('5', 'REJECTED');
 
 -- ----------------------------
 -- Table structure for `f_goal`
@@ -59,48 +58,48 @@ INSERT INTO `f_goal` VALUES ('11', '1', '1', 'Harry potter book', '', '500', 'Pa
 INSERT INTO `f_goal` VALUES ('12', '1', '1', 'Run 1KM each day', '', '1', 'KM', '', '1', '2015-12-19', '1', null, null, '');
 
 -- ----------------------------
--- Table structure for `f_goal_tracker`
+-- Table structure for `f_goal_log`
 -- ----------------------------
-DROP TABLE IF EXISTS `f_goal_tracker`;
-CREATE TABLE `f_goal_tracker` (
-  `goalTrackerId` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS `f_goal_log`;
+CREATE TABLE `f_goal_log` (
+  `goalLogId` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `userGoalId` bigint(20) unsigned NOT NULL,
   `logValue` int(11) DEFAULT NULL,
   `logUnit` varchar(12) DEFAULT NULL,
   `logNotes` varchar(1000) DEFAULT NULL,
   `logDate` date NOT NULL,
-  PRIMARY KEY (`goalTrackerId`),
+  PRIMARY KEY (`goalLogId`),
   KEY `userGoalId` (`userGoalId`),
-  CONSTRAINT `f_goal_tracker_ibfk_1` FOREIGN KEY (`userGoalId`) REFERENCES `f_user_goal` (`userGoalId`)
+  CONSTRAINT `f_goal_log_ibfk_1` FOREIGN KEY (`userGoalId`) REFERENCES `f_user_goal` (`userGoalId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of f_goal_tracker
+-- Records of f_goal_log
 -- ----------------------------
-INSERT INTO `f_goal_tracker` VALUES ('1', '1', '1', 'KG', 'Today was 1st day hence tiresome experience', '2015-11-18');
-INSERT INTO `f_goal_tracker` VALUES ('2', '1', '1', 'KG', 'Today was 1st day hence tiresome experience', '2015-11-18');
-INSERT INTO `f_goal_tracker` VALUES ('3', '1', '1', 'KG', 'Today was 1st day hence tiresome experience', '2015-11-18');
-INSERT INTO `f_goal_tracker` VALUES ('4', '1', '2', 'KG', 'Today was 1st day hence tiresome experience', '2015-11-18');
-INSERT INTO `f_goal_tracker` VALUES ('5', '3', '25', 'No', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-12-06');
-INSERT INTO `f_goal_tracker` VALUES ('6', '3', '550', 'No', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-12-06');
-INSERT INTO `f_goal_tracker` VALUES ('7', '3', '0', 'No', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-12-06');
-INSERT INTO `f_goal_tracker` VALUES ('8', '3', '-10', 'No', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-12-06');
-INSERT INTO `f_goal_tracker` VALUES ('9', '3', '-10', 'No', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-12-06');
-INSERT INTO `f_goal_tracker` VALUES ('10', '3', '-10', 'No', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-12-06');
-INSERT INTO `f_goal_tracker` VALUES ('11', '3', '-10', 'No', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-12-06');
-INSERT INTO `f_goal_tracker` VALUES ('12', '3', '-10', 'No', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-12-06');
-INSERT INTO `f_goal_tracker` VALUES ('13', '3', '-10', 'No', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-12-06');
-INSERT INTO `f_goal_tracker` VALUES ('14', '3', '-10', 'No', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-12-06');
-INSERT INTO `f_goal_tracker` VALUES ('15', '3', '-10', 'No', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-12-06');
-INSERT INTO `f_goal_tracker` VALUES ('16', '3', '10', 'No', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-12-06');
-INSERT INTO `f_goal_tracker` VALUES ('17', '1', '2', 'KG', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-11-22');
-INSERT INTO `f_goal_tracker` VALUES ('18', '1', '2', 'KG', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-11-22');
-INSERT INTO `f_goal_tracker` VALUES ('19', '1', '2', 'KG', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-11-22');
-INSERT INTO `f_goal_tracker` VALUES ('20', '1', '10', 'KG', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-11-22');
-INSERT INTO `f_goal_tracker` VALUES ('21', '1', '9', 'KG', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-11-22');
-INSERT INTO `f_goal_tracker` VALUES ('22', '1', '9', 'KG', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-11-22');
-INSERT INTO `f_goal_tracker` VALUES ('23', '1', '9', 'KG', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-11-22');
-INSERT INTO `f_goal_tracker` VALUES ('24', '1', '9', 'KG', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-11-22');
+INSERT INTO `f_goal_log` VALUES ('1', '1', '1', 'KG', 'Today was 1st day hence tiresome experience', '2015-11-18');
+INSERT INTO `f_goal_log` VALUES ('2', '1', '1', 'KG', 'Today was 1st day hence tiresome experience', '2015-11-18');
+INSERT INTO `f_goal_log` VALUES ('3', '1', '1', 'KG', 'Today was 1st day hence tiresome experience', '2015-11-18');
+INSERT INTO `f_goal_log` VALUES ('4', '1', '2', 'KG', 'Today was 1st day hence tiresome experience', '2015-11-18');
+INSERT INTO `f_goal_log` VALUES ('5', '3', '25', 'No', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-12-06');
+INSERT INTO `f_goal_log` VALUES ('6', '3', '550', 'No', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-12-06');
+INSERT INTO `f_goal_log` VALUES ('7', '3', '0', 'No', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-12-06');
+INSERT INTO `f_goal_log` VALUES ('8', '3', '-10', 'No', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-12-06');
+INSERT INTO `f_goal_log` VALUES ('9', '3', '-10', 'No', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-12-06');
+INSERT INTO `f_goal_log` VALUES ('10', '3', '-10', 'No', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-12-06');
+INSERT INTO `f_goal_log` VALUES ('11', '3', '-10', 'No', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-12-06');
+INSERT INTO `f_goal_log` VALUES ('12', '3', '-10', 'No', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-12-06');
+INSERT INTO `f_goal_log` VALUES ('13', '3', '-10', 'No', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-12-06');
+INSERT INTO `f_goal_log` VALUES ('14', '3', '-10', 'No', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-12-06');
+INSERT INTO `f_goal_log` VALUES ('15', '3', '-10', 'No', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-12-06');
+INSERT INTO `f_goal_log` VALUES ('16', '3', '10', 'No', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-12-06');
+INSERT INTO `f_goal_log` VALUES ('17', '1', '2', 'KG', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-11-22');
+INSERT INTO `f_goal_log` VALUES ('18', '1', '2', 'KG', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-11-22');
+INSERT INTO `f_goal_log` VALUES ('19', '1', '2', 'KG', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-11-22');
+INSERT INTO `f_goal_log` VALUES ('20', '1', '10', 'KG', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-11-22');
+INSERT INTO `f_goal_log` VALUES ('21', '1', '9', 'KG', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-11-22');
+INSERT INTO `f_goal_log` VALUES ('22', '1', '9', 'KG', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-11-22');
+INSERT INTO `f_goal_log` VALUES ('23', '1', '9', 'KG', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-11-22');
+INSERT INTO `f_goal_log` VALUES ('24', '1', '9', 'KG', 'After lot of procrastination I finally hit the treadmill today and did a rigorous 30-minutes hill-walking. Meter says I burnt 300-calories :)', '2015-11-22');
 
 -- ----------------------------
 -- Table structure for `f_goal_type`

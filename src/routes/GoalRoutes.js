@@ -21,21 +21,6 @@ router.get('/mygoallist', function(req, res) {
 });
 
 
-router.post('/mygoal', function(req, res) {
-  log.debug('Inside /mygoal POST router');
-  var goalDetails=req.body;
-  var routerCallback = function(error, result) {
-    if (error) {
-          res.status(409).send(error);
-      } else {
-          res.json(result);
-        }
-    };
-    
-  GoalService.createGoal(goalDetails, routerCallback);
-  log.debug('exiting from /mygoal POST router');
-});
-
 router.get('/mygoal', function(req, res) {
   log.debug('Inside /mygoal GET router');
   var userGoalId=req.query.userGoalId;
@@ -53,6 +38,24 @@ router.get('/mygoal', function(req, res) {
   log.debug('exiting from /mygoal GET router');
 });
 
+
+
+router.post('/mygoal', function(req, res) {
+  log.debug('Inside /mygoal POST router');
+  var goalDetails=req.body;
+  var routerCallback = function(error, result) {
+    if (error) {
+          res.status(409).send(error);
+      } else {
+          res.json(result);
+        }
+    };
+    
+  GoalService.createGoal(goalDetails, routerCallback);
+  log.debug('exiting from /mygoal POST router');
+});
+
+
 router.post('/goallog', function(req, res) {
   log.debug('Inside /goallog POST router');
   var goalLogDetails=req.body;
@@ -69,8 +72,8 @@ router.post('/goallog', function(req, res) {
 });
 
 
-router.get('/goaltracker', function(req, res) {
-  log.debug('Inside /goaltracker GET router');
+router.get('/goallog', function(req, res) {
+  log.debug('Inside /goallog GET router');
   var userGoalId=req.query.userGoalId;
   var isLessDataRequired=req.query.lessData;
   var routerCallback = function(error, result) {
@@ -81,8 +84,23 @@ router.get('/goaltracker', function(req, res) {
     }
   };
     
-  GoalService.fetchGoalTracker(userGoalId, isLessDataRequired, routerCallback);
-  log.debug('exiting from /goaltracker GET router');
+  GoalService.fetchGoalLog(userGoalId, isLessDataRequired, routerCallback);
+  log.debug('exiting from /goallog GET router');
+});
+
+router.put('/goallog', function(req, res) {
+  log.debug('Inside /goallog PUT router');
+  var goalLogDetails=req.body;
+  var routerCallback = function(error, result) {
+    if (error) {
+          res.status(409).send(error);
+      } else {
+          res.json(result);
+        }
+    };
+    
+  GoalService.updateGoalLog(goalLogDetails, routerCallback);
+  log.debug('exiting from /goallog PUT router');
 });
 
 
@@ -191,8 +209,8 @@ router.get('/nonmemberusergoal', function(req, res) {
   log.debug('exiting from /nonmemberusergoal GET router');
 });
 
-router.post('/usergoal', function(req, res) {
-  log.debug('Inside /usergoal POST router');
+router.post('/joingoal', function(req, res) {
+  log.debug('Inside /joingoal POST router');
   var userGoalDetails=req.body;
 
   var routerCallback = function(error, result) {
@@ -202,11 +220,42 @@ router.post('/usergoal', function(req, res) {
       res.json(result);
     }
   };
-    
-  GoalService.createUserGoal(userGoalDetails, routerCallback);
-  log.debug('exiting from /usergoal POST router');
+
+  GoalService.createUserGoalMapping(userGoalDetails, routerCallback);
+  log.debug('exiting from /joingoal POST router');
 });
 
+router.post('/joingoal', function(req, res) {
+  log.debug('Inside /joingoal POST router');
+  var userGoalDetails=req.body;
+
+  var routerCallback = function(error, result) {
+    if (error) {
+      res.status(409).send(error);
+    } else {
+      res.json(result);
+    }
+  };
+
+  GoalService.createUserGoalMapping(userGoalDetails, 'joingoal', routerCallback);
+  log.debug('exiting from /joingoal POST router');
+});
+
+router.post('/suggestgoal', function(req, res) {
+  log.debug('Inside /suggestgoal POST router');
+  var userGoalDetails=req.body;
+
+  var routerCallback = function(error, result) {
+    if (error) {
+      res.status(409).send(error);
+    } else {
+      res.json(result);
+    }
+  };
+
+  GoalService.createUserGoalMapping(userGoalDetails, 'suggestgoal', routerCallback);
+  log.debug('exiting from /suggestgoal POST router');
+});
 
 
 module.exports = router;

@@ -2,6 +2,7 @@
 	"keySalt":"whitezebra@123",
 	"myDateFormat":"yyyy-mm-dd",
 	"targetGoalTypeId":1,
-	"habitGoalTypeId":2
-
+	"habitGoalTypeId":2,
+	"goalStatusPendingAcceptance":1,
+	"goalStatusPendingApproval":2
 }

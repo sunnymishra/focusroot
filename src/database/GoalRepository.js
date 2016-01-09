@@ -16,10 +16,13 @@ GoalRepository.fetchMyGoalList = function(userId, callback) {
 	    log.debug('connected as id ' + connection.threadId);
 	    
 	    var sql = 
-	    	"SELECT g.*, ug.userGoalId, ug.goalStartDate, ug.goalEndDate, ug.goalProgressPercent, ug.isGoalAchieved from F_GOAL AS g "+
+	    	"SELECT g.*, ug.userGoalId, ug.goalStartDate, ug.goalEndDate, ug.goalProgressPercent, ug.isGoalAchieved "+
+	    	"from F_GOAL AS g "+
 	    	"INNER JOIN F_USER_GOAL AS ug ON g.goalId=ug.goalId "+
-	    	"where ug.userId = ? AND g.active = ? AND ug.active = ? ";
-	    connection.query(sql, [userId, userId, 1, 1], function(err, rows, fields){
+	    	"where ug.userId = ? AND g.active = ? AND ug.statusType IN (?) ";
+		
+		var goalConnectionStatus = [1, 2, 3];
+	    connection.query(sql, [userId, userId, goalConnectionStatus], function(err, rows, fields){
 	        connection.release();
 	        if(!err) {
 	        	log.debug('Fetched result:', rows);
@@ -139,7 +142,7 @@ GoalRepository.createGoalLog = function(goalLogDetails, callback) {
 
 	    log.debug('connected as id ' + connection.threadId);
 	    
-	    connection.query('Insert into F_GOAL_TRACKER SET ?', goalLogDetails, function(err, result){
+	    connection.query('Insert into F_GOAL_LOG SET ?', goalLogDetails, function(err, result){
             connection.release();
             if(!err) {
             	log.debug('Last insert record:', result);
@@ -297,7 +300,7 @@ GoalRepository.fetchMemberUserGoal = function(userId, goalId, callback) {
 	});
 };
 
-GoalRepository.fetchGoalTracker = function(userGoalId, callback) {
+GoalRepository.fetchGoalLog = function(userGoalId, callback) {
 	connectionPool.getConnection(function(err,connection){
 	    if (err) {
 	    	log.debug('database connectivity error'+ err);
@@ -309,7 +312,7 @@ GoalRepository.fetchGoalTracker = function(userGoalId, callback) {
 	    
 	    var sql = 
 	    	"SELECT logValue, logUnit, logNotes, logDate "+
-			"from F_GOAL_TRACKER where userGoalId=? ";
+			"from F_GOAL_LOG where userGoalId=? ";
 	    connection.query(sql, [userGoalId], function(err, rows){
 	        connection.release();
 	        if(!err) {
@@ -318,8 +321,39 @@ GoalRepository.fetchGoalTracker = function(userGoalId, callback) {
 		            callback(null, true, rows);
 		        }else{
 					callback(null, false);
-					log.warn('userGoalId %s doesn\'t exist in F_GOAL_TRACKER table !', userGoalId);
+					log.warn('userGoalId %s doesn\'t exist in F_GOAL_LOG table !', userGoalId);
 				}
+	        } else{
+	        	log.error('Error while performing Query. '+ err);  
+	        	callback(err);
+	    	}
+	    });
+
+	    connection.on('error', function(err) {
+	          log.error('Error in connection database. '+ err); 
+	          if(connection) connection.release();
+	          callback(err);
+	    });
+	});
+};
+
+
+GoalRepository.updateGoalLog = function(obj, callback) {
+	connectionPool.getConnection(function(err,connection){
+	    if (err) {
+	    	log.debug('database connectivity error'+ err);
+	      	if(connection) connection.release();
+	      	callback(err);
+	    }
+
+	    log.debug('connected as id ' + connection.threadId);
+	    
+	    var sql = 'Update F_GOAL_LOG SET logValue = ?, logNotes = ? where goaLogId = ?';
+	    connection.query(sql, [obj.logValue, obj.logNotes, obj.goaLogId], function(err, result){
+	        connection.release();
+	        if(!err) {
+	        	log.debug('result.updatedRecords: %s', result.affectedRows);
+	            callback(null, result);
 	        } else{
 	        	log.error('Error while performing Query. '+ err);  
 	        	callback(err);

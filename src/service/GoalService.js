@@ -102,10 +102,10 @@ GoalService.createGoalLog = function(goalLogDetails, callback) {
 
 	var serviceCallback = function(error) {
 		if (error) {
-			log.error('Error during DB access for Inserting into F_GOAL_TRACKER');
+			log.error('Error during DB access for Inserting into F_GOAL_LOG');
 		  	callback(error); 
 		} else {
-			// This means row successfully inserted in F_GOAL_TRACKER
+			// This means row successfully inserted in F_GOAL_LOG
 			GoalRepository.find(goalLogDetails.goalId, function(err, goalResult){
 				if (err) {
 					// NOTE: Need to rollback commit of F_GOAL if control reaches here, i.e. F_USER_GOAL insert failed
@@ -145,6 +145,9 @@ GoalService.createGoalLog = function(goalLogDetails, callback) {
 	log.debug('Exiting GoalService.createGoal');
 };
 
+
+
+
 function calculateGoalProgress(goal, goalLog){
 	var targetValue = goal.goalTargetValue;
 	var achievedValue = goalLog.logValue;
@@ -152,6 +155,51 @@ function calculateGoalProgress(goal, goalLog){
 	goalProgressPercent=goalProgressPercent>100?100:goalProgressPercent;
 	goalProgressPercent=goalProgressPercent<0?0:goalProgressPercent;
 	return goalProgressPercent;
+};
+
+
+GoalService.updateGoalLog = function(goalLogDetails, callback) {
+	log.debug('In Service layer , updating existing GoalLog');
+
+	var serviceCallback = function(error) {
+		if (error) {
+			log.error('Error during DB access for Updating into F_GOAL_LOG');
+		  	callback(error); 
+		} else {
+			// If control reaches here, this means row successfully update in F_GOAL_LOG
+			GoalRepository.find(goalLogDetails.goalId, function(err, goalResult){
+				if (err) {
+					// NOTE: Need to rollback commit of F_GOAL if control reaches here, i.e. F_USER_GOAL insert failed
+					log.error('Error during DB access while updating GoalProgressPercent');
+					callback(err);
+				} else {
+					if(typeof goalResult === 'undefined'){
+						//NOTE: We may have to maintain a list of ErrorCodes and return it to CLient, such as this scenario
+						log.debug('Returning to Client as no matching GoalId found in DB for goalId:'+goalLogDetails.goalId);
+						callback(null, {"success":false, "description":"No matching GoalId found in DB for goalId:"+goalLogDetails.goalId});
+					}
+					var goalProgressPercent = calculateGoalProgress(goalResult,goalLogDetails);
+					// NOTE: Below DB update can be sent to JRabbit Messaage Queue, while we already returned GoalProgressPercent to Client
+					GoalRepository.updateGoalProgressPercent({"userGoalId":goalLogDetails.userGoalId, "modifiedDate":new Date(), "goalProgressPercent":goalProgressPercent}, function(err, result){
+						if (err) {
+							// NOTE: Need to rollback commit of F_GOAL if control reaches here, i.e. F_USER_GOAL insert failed
+							log.error('Error during DB access while updating GoalProgressPercent');
+							callback(err);
+						} else {
+							// NOTE: We won't wait for DB to commit goalProgress. We will return to Client even before that.
+							// Therefore nothing to return here to Client
+							log.debug('successfully updated goalProgressPercent for userGoalId:'+goalLogDetails.userGoalId)
+						}
+					});
+					callback(null, {"success":true, "goalProgressPercent":goalProgressPercent});
+				}
+			});
+		}
+	};
+
+	GoalRepository.updateGoalLog(goalLogDetails, serviceCallback);
+
+	log.debug('Exiting GoalService.updateGoalLog');
 };
 
 
@@ -189,28 +237,28 @@ GoalService.fetchMyUserGoal = function(userGoalId, callback) {
 };
 
 
-GoalService.fetchGoalTracker = function(userGoalId, isLessDataRequired, callback) {
-	log.debug('Inside fetchGoalTracker service');
+GoalService.fetchGoalLog = function(userGoalId, isLessDataRequired, callback) {
+	log.debug('Inside fetchGoalLog service');
 
-	var serviceCallback = function(error, success, goalTrackerList) {
+	var serviceCallback = function(error, success, goalLogList) {
 		if (error) {
 			log.error('Error during DB access');
-		  	callback(error, {"success":false, "description": "Could not fetch GoalTracker due to unexpected error. Please try again."}); 
+		  	callback(error, {"success":false, "description": "Could not fetch GoalLogs due to unexpected error. Please try again."}); 
 		} else {
 			if(success){
 				if(isLessDataRequired === "true"){
-					var goalUnit = goalTrackerList[0].logUnit;
-					if(goalTrackerList && goalTrackerList!== 'undefined' && goalTrackerList.length > 0){
-						goalTrackerList.forEach( function (goalTracker){
+					var goalUnit = goalLogList[0].logUnit;
+					if(goalLogList && goalLogList!== 'undefined' && goalLogList.length > 0){
+						goalLogList.forEach( function (goalLog){
 							// Removing logNotes and logUnit from each obj in List to make it a lite JSON object
-							delete goalTracker.logNotes;
-							delete goalTracker.logUnit;
+							delete goalLog.logNotes;
+							delete goalLog.logUnit;
 						});
 					}
-					callback(null, {"success":true, "goalUnit":goalUnit, "goalTracker":goalTrackerList});
+					callback(null, {"success":true, "goalUnit":goalUnit, "goalLogs":goalLogList});
 				}	
 				else{
-					callback(null, {"success":true, "goalTracker":goalTrackerList});				
+					callback(null, {"success":true, "goalLogs":goalLogList});				
 				}
 
 			}else
@@ -218,9 +266,9 @@ GoalService.fetchGoalTracker = function(userGoalId, isLessDataRequired, callback
 	    }
 	};
 
-	GoalRepository.fetchGoalTracker(userGoalId, serviceCallback);
+	GoalRepository.fetchGoalLog(userGoalId, serviceCallback);
 
-	log.debug('Exiting GoalService.fetchGoalTracker');
+	log.debug('Exiting GoalService.fetchGoalLog');
 };
 
 GoalService.fetchGoalList = function(tagId, goalTypeId, userId, callback) {
@@ -244,14 +292,20 @@ GoalService.fetchGoalList = function(tagId, goalTypeId, userId, callback) {
 
 
 
-GoalService.createUserGoal = function(userGoalDetails, callback) {
-	log.debug('Inside createUserGoal');
+GoalService.createUserGoalMapping = function(userGoalDetails, goalRequestType, callback) {
+	log.debug('Inside createUserGoalMapping');
 	//log.debug('Received new GoalDetail from Client: ' + JSON.stringify(goalDetails));
 	//log.debug('typeof goal.goalStartDate %s and goal.goalStartDate %j:',typeof goal.goalStartDate, goal.goalStartDate);
 	
+	var userGoalStatus;
+	if(goalRequestType == 'suggestgoal')
+		userGoalStatus = nconf.get('goalStatusPendingAcceptance');
+	if(goalRequestType == 'joinGoal')
+		userGoalStatus = nconf.get('goalStatusPendingApproval');
+
 	var UserGoalModel={"userId":userGoalDetails.userId, "goalId":userGoalDetails.goalId, "goalStartDate":userGoalDetails.goalStartDate,
 		"goalEndDate":userGoalDetails.goalEndDate, "createdDate":new Date(),
-		"createdBy":userGoalDetails.userId, "active":true};
+		"createdBy":userGoalDetails.userId, "statusType":userGoalStatus};
 
 	var serviceCallback = function(err, userGoalResult){
 		if (err) {
@@ -266,7 +320,7 @@ GoalService.createUserGoal = function(userGoalDetails, callback) {
 	
 	GoalRepository.createUserGoalMap(UserGoalModel, serviceCallback);
 
-	log.debug('Exiting GoalService.createUserGoal');
+	log.debug('Exiting GoalService.createUserGoalMapping');
 };
 
 
