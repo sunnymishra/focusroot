@@ -1,6 +1,7 @@
 var connectionPool = require('../util/databaseDriver.js').DatabaseDriver.connectionPool;
 var path = require('path');
 var log = require(path.join(path.dirname(require.main.filename),'../lib/logger.js'));
+var nconf = require('nconf');
 
 GoalRepository = function() {
 };
@@ -21,7 +22,7 @@ GoalRepository.fetchMyGoalList = function(userId, callback) {
 	    	"INNER JOIN F_USER_GOAL AS ug ON g.goalId=ug.goalId "+
 	    	"where ug.userId = ? AND g.active = ? AND ug.statusType IN (?) ";
 		
-		var goalConnectionStatus = [1, 2, 3];
+		var goalConnectionStatus = [nconf.get('goalStatusPendingAcceptance'), nconf.get('goalStatusPendingApproval'), nconf.get('goalStatusConfirmed')];
 	    connection.query(sql, [userId, userId, goalConnectionStatus], function(err, rows, fields){
 	        connection.release();
 	        if(!err) {
@@ -275,8 +276,10 @@ GoalRepository.fetchMemberUserGoal = function(userId, goalId, callback) {
 	    	"SELECT g.goalId, g.tagId, g.goalTypeId, g.goalName, g.goalDescription, g.goalTargetValue, g.goalUnit, "+
 			"ug.userGoalId, ug.goalProgressPercent, ug.goalStartDate, ug.goalEndDate, ug.isGoalAchieved "+
 			"from F_GOAL g JOIN F_USER_GOAL ug ON g.goalId=ug.goalId "+
-	    	"where ug.userId=? and ug.goalId=? and ug.active = ? and g.active = ? ";
-	    connection.query(sql, [userId, goalId, 1, 1], function(err, rows){
+	    	"where ug.userId=? and ug.goalId=? and ug.statusType IN (?) and g.active = ? ";
+
+	    var goalConnectionStatus = [nconf.get('goalStatusPendingAcceptance'), nconf.get('goalStatusPendingApproval'), nconf.get('goalStatusConfirmed')];
+	    connection.query(sql, [userId, goalId, goalConnectionStatus, 1], function(err, rows){
 	        connection.release();
 	        if(!err) {
 	        	if(typeof rows !== 'undefined' && rows.length > 0){
@@ -421,7 +424,7 @@ GoalRepository.fetchMyGoalMemberList = function(goalId, callback) {
 			"where goalId=? and ug.statusType IN (?) "+
 			"order by ug.statusType ";
 		
-		var goalConnectionStatus = [1, 2, 3];
+		var goalConnectionStatus = [nconf.get('goalStatusPendingAcceptance'), nconf.get('goalStatusPendingApproval'), nconf.get('goalStatusConfirmed')];
 	    connection.query(sql, [goalId, goalConnectionStatus], function(err, rows, fields){
 	        connection.release();
 	        if(!err) {
@@ -458,10 +461,12 @@ GoalRepository.fetchUserGoalList = function(friendUserId, loggedInUserId, callba
 			"Join f_tag t on g.tagId=t.tagId "+
 			"Join f_user_Goal ug1 on ug1.goalId=g.goalId "+
 			"left outer join "+
-			"(select goalId from f_user_goal ug2 where ug2.userId=? and ug2.active=?) tempTable on tempTable.goalId=ug1.goalId "+
-			"where  ug1.userId=?  and ug1.active=? and g.active=? ";
+			"(select goalId from f_user_goal ug2 where ug2.userId=? and ug2.statusType IN (?)) tempTable on tempTable.goalId=ug1.goalId "+
+			"where  ug1.userId=?  and ug1.statusType IN (?) and g.active=? ";
+			//"order by ug1.statusType ";
 
-	    connection.query(sql, [loggedInUserId, 1, friendUserId, 1, 1], function(err, rows, fields){
+		var goalConnectionStatus = [nconf.get('goalStatusConfirmed')];
+	    connection.query(sql, [loggedInUserId, goalConnectionStatus, friendUserId, goalConnectionStatus, 1], function(err, rows, fields){
 	        connection.release();
 	        if(!err) {
 	        	log.debug('Fetched result:', rows);
@@ -565,7 +570,7 @@ GoalRepository.fetchNonMemberGoalList = function(userId, callback) {
 			"Join f_user_Goal ug on ug.goalId=g.goalId "+
 			"where ug.userId=? and ug.statusType IN (?) and g.active=? "+
 			"order ug.statusType ";
-		var goalConnectionStatus = [1, 2, 3];
+		var goalConnectionStatus = [nconf.get('goalStatusPendingAcceptance'), nconf.get('goalStatusPendingApproval'), nconf.get('goalStatusConfirmed')];
 	    connection.query(sql, [userId, goalConnectionStatus, 1], function(err, rows){
 	        connection.release();
 	        if(!err) {

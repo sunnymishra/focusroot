@@ -122,10 +122,10 @@ router.get('/memberusergoal', function(req, res) {
   log.debug('exiting from /memberusergoal GET router');
 });
 
-router.get('/usergoallist', function(req, res) {
+router.get('/memberusergoallist', function(req, res) {
   var friendUserId=req.query.friendUserId;
   var loggedInUserId=req.query.loggedInUserId;
-  log.debug('Inside /userGoalList?friendUserId=%s&loggedInUserId=%s GET router', friendUserId, loggedInUserId);
+  log.debug('Inside /memberuserGoalList?friendUserId=%s&loggedInUserId=%s GET router', friendUserId, loggedInUserId);
 
   var routerCallback = function(error, result) {
     if (error) {
@@ -136,7 +136,7 @@ router.get('/usergoallist', function(req, res) {
   };
 
   GoalService.fetchUserGoalList(friendUserId, loggedInUserId, routerCallback);
-  log.debug('exiting from /usergoallist GET router');
+  log.debug('exiting from /memberusergoallist GET router');
 });
 
 router.get('/taglist', function(req, res) {
@@ -209,21 +209,6 @@ router.get('/nonmemberusergoal', function(req, res) {
   log.debug('exiting from /nonmemberusergoal GET router');
 });
 
-router.post('/joingoal', function(req, res) {
-  log.debug('Inside /joingoal POST router');
-  var userGoalDetails=req.body;
-
-  var routerCallback = function(error, result) {
-    if (error) {
-      res.status(409).send(error);
-    } else {
-      res.json(result);
-    }
-  };
-
-  GoalService.createUserGoalMapping(userGoalDetails, routerCallback);
-  log.debug('exiting from /joingoal POST router');
-});
 
 router.post('/joingoal', function(req, res) {
   log.debug('Inside /joingoal POST router');
@@ -240,6 +225,24 @@ router.post('/joingoal', function(req, res) {
   GoalService.createUserGoalMapping(userGoalDetails, 'joingoal', routerCallback);
   log.debug('exiting from /joingoal POST router');
 });
+
+
+router.put('/joingoal', function(req, res) {
+  log.debug('Inside /joingoal PUT router');
+  var userGoalDetails=req.body;
+
+  var routerCallback = function(error, result) {
+    if (error) {
+      res.status(409).send(error);
+    } else {
+      res.json(result);
+    }
+  };
+
+  GoalService.approveUserGoalMapping(userGoalDetails, 'joingoal', routerCallback);
+  log.debug('exiting from /joingoal PUT router');
+});
+
 
 router.post('/suggestgoal', function(req, res) {
   log.debug('Inside /suggestgoal POST router');

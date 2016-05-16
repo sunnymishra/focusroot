@@ -22,6 +22,12 @@ AccountService.register = function(user, callback) {
 	var registerCallback = function(error, obj) {
 		if (error) {
 			log.error('Error during DB access');
+			log.error('typeof error %s',typeof error);
+			if(error.code==='ER_DUP_ENTRY'){
+				log.error('User email already exists. User can\'t  be registered.');
+				error.code='DUPLICATE_EMAIL';
+				callback({"success":false, "code": "DUPLICATE_EMAIL"});
+			}
 		  	callback(error); 
 		} else {
 	       callback(null, {"userId":obj.insertId});
@@ -71,7 +77,7 @@ AccountService.authenticate = function(user, callback) {
 				callback(null, {"success":true, "userId":result.userId,"email":result.email});
 			}
 	       	else
-	       		callback(null, {"success":false, "description":"Incorrect Email or Password"});
+	       		callback({"success":false, "description":"Incorrect Email or Password"});
 			
 		}
 	});
@@ -81,8 +87,8 @@ AccountService.forgotPassword = function(user, callback) {
 	user.modifiedDate=new Date();
 	var verificationCode = Util.verificationCode();
 	user.forgotPasswordCode = Util.encryptKey(verificationCode);
-	user.password=Util.encryptKey(user.password);
-
+	user.password=Util.encryptKey(user.newPassword);
+	// TODO: Handle UserId not exist of UserId inactive scenario
 	UserRepository.updatePassword({user:user, isForgotPassword:true}, function(err, result){
 		if (err) {
 			log.error('Error during DB access');
@@ -136,7 +142,7 @@ AccountService.verifyForgotPasswordCode = function(user, callback) {
 				});
 			}
 	       	else
-	       		callback(null, {"success":false, "description":"Incorrect Verification code"});
+	       		callback({"success":false, "description":"Incorrect Verification code"});
 			
 		}
 	});

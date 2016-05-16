@@ -5,21 +5,21 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 -- Table structure for `f_friend_request_type`
 -- ----------------------------
-DROP TABLE IF EXISTS `f_friend_request_type`;
-CREATE TABLE `f_friend_request_type` (
-  `friendRequestTypeId` int(5) NOT NULL,
-  `friendRequestTypeName` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`friendRequestTypeId`)
+DROP TABLE IF EXISTS `f_user_goal_status_type`;
+CREATE TABLE `f_user_goal_status_type` (
+  `userGoalStatusTypeId` int(5) NOT NULL,
+  `userGoalStatusTypeName` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`userGoalStatusTypeId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of f_friend_request_type
+-- Records of f_user_goal_status_type
 -- ----------------------------
-INSERT INTO `f_friend_request_type` VALUES ('1', 'PENDING_ACCEPTANCE');
-INSERT INTO `f_friend_request_type` VALUES ('2', 'PENDING_APPROVAL');
-INSERT INTO `f_friend_request_type` VALUES ('3', 'CONFIRMED');
-INSERT INTO `f_friend_request_type` VALUES ('4', 'REVOKED');
-INSERT INTO `f_friend_request_type` VALUES ('5', 'REJECTED');
+INSERT INTO `f_user_goal_status_type` VALUES ('1', 'PENDING_ACCEPTANCE');
+INSERT INTO `f_user_goal_status_type` VALUES ('2', 'PENDING_APPROVAL');
+INSERT INTO `f_user_goal_status_type` VALUES ('3', 'CONFIRMED');
+INSERT INTO `f_user_goal_status_type` VALUES ('4', 'REVOKED');
+INSERT INTO `f_user_goal_status_type` VALUES ('5', 'REJECTED');
 
 -- ----------------------------
 -- Table structure for `f_goal`
@@ -162,7 +162,7 @@ CREATE TABLE `f_user` (
   `modifiedDate` date DEFAULT NULL,
   `active` bit(1) NOT NULL,
   PRIMARY KEY (`userId`),
-  UNIQUE KEY `constr_user` (`displayName`,`email`)
+  UNIQUE KEY `constr_user` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 -- ----------------------------

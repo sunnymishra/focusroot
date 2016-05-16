@@ -4,5 +4,6 @@
 	"targetGoalTypeId":1,
 	"habitGoalTypeId":2,
 	"goalStatusPendingAcceptance":1,
-	"goalStatusPendingApproval":2
+	"goalStatusPendingApproval":2,
+	"goalStatusConfirmed":3
 }

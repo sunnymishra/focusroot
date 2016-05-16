@@ -23,6 +23,9 @@ GoalService.fetchMyGoalList = function(userId, callback) {
 				    goal.createdDate=goal.createdDate?dateFormat(goal.createdDate, nconf.get('myDateFormat')):null;
 				    goal.goalStartDate=goal.goalStartDate?dateFormat(goal.goalStartDate, nconf.get('myDateFormat')):null;
 				    goal.goalEndDate=goal.goalEndDate?dateFormat(goal.goalEndDate, nconf.get('myDateFormat')):null;
+					goal.isPrivateGoal=goal.isPrivateGoal[0];
+					goal.active=goal.active[0];
+					goal.isGoalAchieved=goal.isGoalAchieved[0];
 				});
 			}
 	       callback(null, {"success":true, "myGoalList":result});
@@ -345,7 +348,7 @@ GoalService.fetchMemberUserGoal = function(userId, goalId, callback) {
 							goal.goalEndDate=goal.goalEndDate?dateFormat(goal.goalEndDate, nconf.get('myDateFormat')):null;
 							goal.isGoalAchieved=goal.isGoalAchieved[0];
 					
-							callback(null, {"success":true, "user":user, "goal":goal});
+							callback(null, {"success":true, "user":user[0], "goal":goal});
 						}else
 				       		callback(null, {"success":false, "description":"userGoalId doesn\'t exist:"+userGoalId});
 				    }

@@ -4,8 +4,8 @@ var path = require('path');
 var log = require(path.join(path.dirname(require.main.filename),'../lib/logger.js'));
 var AccountService = require('../service/AccountService.js').AccountService;
 
-router.post('/register', function(req, res) {
-  log.debug('Inside /register router');
+router.post('/account', function(req, res) {
+  log.debug('Inside /account register router');
 	var user = req.body;
 	var registerCallback = function(error, result) {
 		if (error) {
@@ -16,7 +16,7 @@ router.post('/register', function(req, res) {
    	};
    	
 	AccountService.register(user, registerCallback);
-  log.debug('exiting from /register router');
+  log.debug('exiting from /account register router');
 });
 
 router.post('/login', function(req, res) {
